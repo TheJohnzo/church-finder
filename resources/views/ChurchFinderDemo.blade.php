@@ -2,8 +2,8 @@
     var map_0;//hardcoded to support only one map per page for developement.
     var last_click = -1;//track previous click to help update UI with subsequent clicks
 
+    //declare these as globals so can reference in custom code
     @foreach ($locations as $key => $location)
-        //declare these as globals so can reference in custom code
         var infowindow_{!! $key !!};
         var marker_{!! $key !!};
     @endforeach
@@ -15,6 +15,9 @@
             document.getElementById('mapbox_' + last_click).style.backgroundColor = '#FFFFFF';
         }
 
+        var cur_marker = window['marker_' + id];
+        map_0.setZoom({!! $params['zoom'] !!});
+        map_0.panTo(cur_marker.position);
         document.getElementById('mapbox_' + id).style.backgroundColor = '#DDDDDD';
         last_click = id;
     }
@@ -36,7 +39,7 @@
             <em style="font-size: 12px;">&nbsp; of &nbsp;</em>
             <input name="search" value ="{{ $search }}"/> 
             <input type="submit" value="search" />
-            
+            &nbsp;<a href="/church-finder/public/">See All</a>
         </form>
         </div>
 

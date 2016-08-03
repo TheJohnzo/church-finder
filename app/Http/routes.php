@@ -11,5 +11,15 @@
 |
 */
 
-Route::get('/', 'ChurchFinderDemo@index');
-Route::get('/test', 'ChurchFinderDemo@test');
+//Mapping Piece
+Route::get('/map', 'ChurchFinderController@index');
+Route::get('/test', 'ChurchFinderController@test');
+
+//will need to be protected by login security
+Route::get('/admin/church', 'ChurchAdminController@index');
+Route::get('/admin/church/new', 'ChurchAdminController@newChurch');
+Route::get('/admin/church/edit/{id}', 'ChurchAdminController@editChurch');
+
+Route::auth();
+
+Route::get('/', 'HomeController@index');

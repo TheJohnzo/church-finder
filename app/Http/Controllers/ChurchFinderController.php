@@ -15,7 +15,10 @@ use App\Http\Requests;
 
 //https://github.com/bradcornford/Googlmapper
 
-class ChurchFinderDemo extends Controller
+//Considering WP site, using iframe to embed church-finder app.  
+//<iframe width="100%" height="500px"  src="http://localhost:8888/church-finder/public/"></iframe>
+
+class ChurchFinderController extends Controller
 {
     public function test()
     {
@@ -24,7 +27,12 @@ class ChurchFinderDemo extends Controller
     public function index(Request $request)
     {
         $params = ['zoom' => 14, 'type' => 'HYBRID', 'marker' => false];
-        $data = ['search' => $request->input('search'), 'msg' => null, 'distance' => $request->input('distance', 20)];
+        $data = [
+            'search' => $request->input('search'), 
+            'msg' => null, 
+            'distance' => $request->input('distance', 20),
+            'params' => $params
+        ];
 
         if (strlen($request->input('search')) > 0) {
             try {
@@ -42,8 +50,8 @@ class ChurchFinderDemo extends Controller
             }
 
         } else {
+            $params['zoom'] = 5;//wide zoom to show churches all over the country
             $this->getDefaultLocation($params);
-
             //When not searching, show all churches to populate map.  TODO evaluate performance.
             $locations = \App\Church::all();
         }

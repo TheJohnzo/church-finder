@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChurchTable extends Migration
+class Organization extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateChurchTable extends Migration
      */
     public function up()
     {
-        Schema::create('church', function (Blueprint $table) {
+        Schema::create('organization', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('addr');
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->integer('size_in_churches');
+            $table->string('global_url');
+            $table->string('national_url');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateChurchTable extends Migration
      */
     public function down()
     {
-        Schema::drop('church');
+        Schema::drop('organization');
     }
 }
