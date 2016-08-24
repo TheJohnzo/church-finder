@@ -6,7 +6,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div align="center"><h3>{!! $msg !!}</h3></div>
             <div class="panel panel-default">
-                <div class="panel-heading">Church Admin</div>
+                <div class="panel-heading">Organization Admin</div>
 
                 <div class="panel-body">
                     <table border="1" style="width: 100%;">
@@ -14,31 +14,29 @@
                         <td>ID</td>
                         <td>Name</td>
                         <td>Size</td>
-                        <td>URL</td>
-                        <td>Contact Phone</td>
-                        <td>Contact Email</td>
+                        <td>National URL</td>
+                        <td>Global URL</td>
                         <td>Created At</td>
                         <td>Updated At</td>
                     </thead></tr>
-                    @forelse ($churches as $key => $church)
+                    @forelse ($organizations as $key => $org)
                         <tr>
-                            <td>{{ $church['id'] }}</td>
-                            <td><a href="{{ url('/admin/church/edit') }}/{{ $church['id'] }}">{{ $church['name'] }}</a></td>
-                            <td>{{ $church['size_in_people'] }}</td>
-                            <td>{{ $church['url'] }}</td>
-                            <td>{{ $church['contact_phone'] }}</td>
-                            <td>{{ $church['contact_email'] }}</td>
-                            <td>{{ $church['created_at'] }}</td>
-                            <td>{{ $church['updated_at'] }}</td>
+                            <td>{{ $org['id'] }}</td>
+                            <td><a href="{{ url('/admin/organization/edit') }}/{{ $org['id'] }}">{{ $org['name'] }}</a></td>
+                            <td>{{ $org['size_in_churches'] }}</td>
+                            <td>{{ $org['national_url'] }}</td>
+                            <td>{{ $org['global_url'] }}</td>
+                            <td>{{ $org['created_at'] }}</td>
+                            <td>{{ $org['updated_at'] }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8">No churches found in the database...</td>
+                            <td colspan="7">No organizations found in the database...</td>
                         </tr>
                     @endforelse
                     </table>
-                    {!! $churches->render() !!}
-                    <form action="{{ url('/admin/church/new') }}" method="GET" class="toppadding25">
+                    {!! $organizations->render() !!}
+                    <form action="{{ url('/admin/organization/new') }}" method="GET" class="toppadding25">
                         <button type="submit" class="btn btn-primary">
                             {!! FA::icon('hand-o-right') !!}&nbsp;&nbsp;Create New
                         </button>

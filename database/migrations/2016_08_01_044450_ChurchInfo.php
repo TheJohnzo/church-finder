@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Church extends Migration
+class ChurchInfo extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,15 @@ class Church extends Migration
      */
     public function up()
     {
-        Schema::create('church', function (Blueprint $table) {
+        Schema::create('church_info', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('size_in_people');
-            $table->string('url');
-            $table->string('contact_phone');
-            $table->string('contact_email');
+            $table->string('name');
+            $table->string('description');
+            $table->string('language');
+            $table->integer('church_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('church_id')->references('id')->on('church');
         });
     }
 
@@ -29,6 +31,6 @@ class Church extends Migration
      */
     public function down()
     {
-        Schema::drop('church');
+        Schema::drop('church_description');
     }
 }

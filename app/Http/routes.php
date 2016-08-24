@@ -15,10 +15,19 @@
 Route::get('/map', 'ChurchFinderController@index');
 Route::get('/test', 'ChurchFinderController@test');
 
-//will need to be protected by login security
+//Below will need to be protected by login security
+
 Route::get('/admin/church', 'ChurchAdminController@index');
 Route::get('/admin/church/new', 'ChurchAdminController@newChurch');
+Route::post('/admin/church/new', 'ChurchAdminController@insertChurch');
 Route::get('/admin/church/edit/{id}', 'ChurchAdminController@editChurch');
+Route::post('/admin/church/edit/{id}', 'ChurchAdminController@updateChurch');
+
+Route::get('/admin/organization', 'OrganizationAdminController@index');
+Route::get('/admin/organization/new', 'OrganizationAdminController@newOrganization');
+Route::post('/admin/organization/new', 'OrganizationAdminController@insertOrganization');
+Route::get('/admin/organization/edit/{id}', 'OrganizationAdminController@editOrganization');
+Route::post('/admin/organization/edit/{id}', 'OrganizationAdminController@updateOrganization');
 
 Route::auth();
 

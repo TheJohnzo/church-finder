@@ -157,6 +157,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Cornford\Googlmapper\MapperServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
+        Khill\Fontawesome\FontAwesomeServiceProvider::class,
 
     ],
 
@@ -205,6 +206,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
         'GeoIP' => Torann\GeoIP\GeoIPFacade::class,
+        'FA' => Khill\Fontawesome\FontAwesomeServiceProvider::class,
 
     ],
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChurchDescription extends Migration
+class ChurchSize extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,10 @@ class ChurchDescription extends Migration
      */
     public function up()
     {
-        Schema::create('church_description', function (Blueprint $table) {
+        Schema::create('church_size', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description');
-            $table->string('language');
-            $table->integer('church_id')->unsigned();
+            $table->string('text');
             $table->timestamps();
-
-            $table->foreign('church_id')->references('id')->on('church');
         });
     }
 
@@ -30,6 +26,6 @@ class ChurchDescription extends Migration
      */
     public function down()
     {
-        Schema::drop('church_description');
+        Schema::drop('church_size');
     }
 }

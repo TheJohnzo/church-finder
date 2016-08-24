@@ -4,7 +4,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div align="center"><h3>{!! $msg !!}</h3></div>
             <div class="panel panel-default">
                 <div class="panel-heading">Church Admin</div>
 
@@ -38,11 +37,8 @@
                     @endforelse
                     </table>
                     {!! $churches->render() !!}
-                    <form action="{{ url('/admin/church/new') }}" method="GET" class="toppadding25">
-                        <button type="submit" class="btn btn-primary">
-                            {!! FA::icon('hand-o-right') !!}&nbsp;&nbsp;Create New
-                        </button>
-                    </form>
+                    
+                    
                 </div>
             </div>
         </div>

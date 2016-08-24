@@ -22,6 +22,31 @@ class ChurchFinderController extends Controller
 {
     public function test()
     {
+        \App\ChurchInfo::whereNotNull('id')->delete();
+        \App\ChurchAddressLabel::whereNotNull('id')->delete();
+        \App\ChurchAddress::whereNotNull('id')->delete();
+        \App\Church::whereNotNull('id')->delete();
+        //populate testing data
+        $data = [
+            ['name' => 'Pearl Vineyard', 'addr' => '横浜市南区井土ヶ谷中町１５７ ダイヤパレス井土ヶ谷２F ２W号室'],
+            ['name' => 'Yokohama International Baptist', 'addr' => '60 Nakaodai, Naka Ward, Yokohama, Kanagawa'],
+            ['name' => 'Yokohama Grace Bible Church', 'addr' => '5-85 Chojamachi, Naka Ward, Yokohama, Kanagawa Prefecture'],
+            ['name' => 'Yokohama Kaigan Church', 'addr' => '8 Nihonodori, Naka Ward, Yokohama'],
+            ['name' => 'カトリック山手教会', 'addr' => '44 Yamatecho, Naka Ward, Yokohama'],
+            ['name' => 'Tokyo Baptist Church', 'addr' => '9-2 Hachiyamacho, Shibuya, Tokyo'],
+            ['name' => 'Lifehouse Tokyo ライフハウス東京', 'addr' => 'Japan, 〒101-0062 Tokyo, 港区Roppongi, 7−18−18'],
+            ['name' => 'Iglesia Adventista Central de Tokio', 'addr' => '1-11-1 Jingumae, Shibuya, Tokyo 150-0001'],
+            ['name' => 'Tokyo LDS Temple', 'addr' => '5-8-10 Minamiazabu, Minato, Tokyo 106-0047, Japan'],
+            ['name' => 'Holy Resurrection Cathedral', 'addr' => 'Address: 4-1-3 Kanda Surugadai, Chiyoda, Tokyo 101-0062'],
+            ['name' => 'Kyoto International Church', 'addr' => '14 Saiinsanzocho, Ukyo Ward, Kyoto, Kyoto Prefecture, Japan'],
+            ['name' => '聖アグネス教会', 'addr' => 'Kyoto Prefecture, Kyoto 上京区堀松町404'],
+            ['name' => '北山バプテスト教会', 'addr' => '37 Kamigamo Iwagakakiuchicho, Kita Ward, Kyoto'],
+            ['name' => 'カトリック北白川教会', 'addr' => '22 Kitashirakawa Nishitsutacho, Sakyo Ward, Kyoto, Kyoto Prefecture'],
+        ];
+        foreach ($data as $d) {
+            \App\Church::insertFromNameAndAddress($d['name'], $d['addr']);
+        }
+        \App\Church::updateLatLongFromAddressAll();
     }
 
     public function index(Request $request)
@@ -56,8 +81,23 @@ class ChurchFinderController extends Controller
             $locations = \App\Church::all();
         }
 
-        foreach ($locations as $l) {
-            Mapper::informationWindow($l->latitude, $l->longitude, $l->name);
+        foreach ($locations as &$l) {
+            $info = \App\ChurchInfo::where('church_id', $l->id)
+                ->where('language', 'en')//default only english during dev
+                ->first();
+
+            //TODO support multiple address
+            $address = \App\ChurchAddress::where('church_id', $l->id)->first();
+            $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $address['id'])
+                ->where('language', 'en')//default only english during dev
+                ->first();
+
+            //TODO better model to avoid adding adhoc params?
+            $l->name = $info['name'];
+            $l->lat = $address['latitude'];
+            $l->long = $address['longitude'];
+            $l->addr = $addressLabel['addr'];
+            Mapper::informationWindow($address['latitude'], $address['longitude'], $info['name']);
         }
         $data['locations'] = $locations;
 
