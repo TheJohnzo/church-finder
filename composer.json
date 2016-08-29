@@ -6,9 +6,10 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "5.3.*",
         "khill/fontawesomephp" : "1.0.x",
-        "jgrossi/corcel": "^1.1"
+        "jgrossi/corcel": "^1.1",
+        "components/flag-icon-css": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -17,7 +18,8 @@
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "cornford/googlmapper": "2.*",
-        "torann/geoip": "0.2.*@dev"
+        "torann/geoip": "0.2.*@dev",
+        "laravelcollective/html": "5.3.*"
     },
     "autoload": {
         "classmap": [

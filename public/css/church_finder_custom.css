@@ -13,7 +13,7 @@ thead {
     background-color: #4F6EC2;
     color: #ffffff;
 }
-tr.expired {
+tr.deleted {
     background-color: #CCCCCC;
 }
 textarea {
@@ -35,4 +35,23 @@ body {
 }
 .toppadding25 {
     padding-top: 25px;
+}
+.form_cell_label {
+    width: 25%;
+    vertical-align: text-top;
+    font-weight: bold;
+}
+.form_cell input[type="text"], .form_cell select,.form_cell textarea {
+    width: 80%;
+}
+.form_cell input[type="checkbox"] {
+    height: 18px;
+    width: 18px;
+}
+
+input[readonly], input[disabled] {
+    background-color: #DDDDDD;
+}
+.alert-danger {
+    background-color: #f2dede !important;
 }

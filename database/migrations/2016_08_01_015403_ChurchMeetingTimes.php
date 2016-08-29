@@ -16,7 +16,6 @@ class ChurchMeetingTimes extends Migration
             $table->increments('id');
             $table->string('time');
             $table->integer('day_of_week');//Sunday = 0, Saturday = 6
-            $table->string('language');
             $table->integer('church_id')->unsigned();
             $table->integer('church_address_id')->unsigned();
             $table->timestamps();

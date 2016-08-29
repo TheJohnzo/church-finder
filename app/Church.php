@@ -40,7 +40,7 @@ class Church extends Model
         foreach (\App\ChurchAddress::where('church_id', $id)->cursor() as $a) {
 
             $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $a->id)
-                ->where('language', 'en')//default only english during dev
+                ->where('language', 'en')//FIXME default only english during dev
                 ->first();
 
             $location = Mapper::location($addressLabel['addr']);

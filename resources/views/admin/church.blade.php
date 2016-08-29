@@ -23,7 +23,7 @@
                     @forelse ($churches as $key => $church)
                         <tr>
                             <td>{{ $church['id'] }}</td>
-                            <td><a href="{{ url('/admin/church/edit') }}/{{ $church['id'] }}">{{ $church['name'] }}</a></td>
+                            <td><a href="{{ url('/admin/church/edit') }}/{{ $church['id'] }}">{{ $churchInfo[$church['id']]['name'] }}</a></td>
                             <td>{{ $church['size_in_people'] }}</td>
                             <td>{{ $church['url'] }}</td>
                             <td>{{ $church['contact_phone'] }}</td>

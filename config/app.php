@@ -158,7 +158,7 @@ return [
         Cornford\Googlmapper\MapperServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
         Khill\Fontawesome\FontAwesomeServiceProvider::class,
-
+        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -207,7 +207,8 @@ return [
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
         'GeoIP' => Torann\GeoIP\GeoIPFacade::class,
         'FA' => Khill\Fontawesome\FontAwesomeServiceProvider::class,
-
+         'Form' => Collective\Html\FormFacade::class,
+         'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];

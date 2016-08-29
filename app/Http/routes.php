@@ -22,6 +22,12 @@ Route::get('/admin/church/new', 'ChurchAdminController@newChurch');
 Route::post('/admin/church/new', 'ChurchAdminController@insertChurch');
 Route::get('/admin/church/edit/{id}', 'ChurchAdminController@editChurch');
 Route::post('/admin/church/edit/{id}', 'ChurchAdminController@updateChurch');
+Route::get('/admin/church/edit/{id}/address', 'ChurchAdminController@editChurchAddress');
+Route::post('/admin/church/edit/{id}/address/{address_id}', 'ChurchAdminController@updateChurchAddress');
+Route::post('/admin/church/lookupaddress', 'ChurchAdminController@lookupAddresses');
+Route::get('/admin/church/edit/{id}/tag', 'ChurchAdminController@editChurchTags');
+Route::get('/admin/church/edit/{id}/meetingtimes', 'ChurchAdminController@editChurchMeetingTimes');
+
 
 Route::get('/admin/organization', 'OrganizationAdminController@index');
 Route::get('/admin/organization/new', 'OrganizationAdminController@newOrganization');
@@ -29,6 +35,7 @@ Route::post('/admin/organization/new', 'OrganizationAdminController@insertOrgani
 Route::get('/admin/organization/edit/{id}', 'OrganizationAdminController@editOrganization');
 Route::post('/admin/organization/edit/{id}', 'OrganizationAdminController@updateOrganization');
 
-Route::auth();
+//Route::auth();
+Auth::routes();
 
 Route::get('/', 'HomeController@index');
