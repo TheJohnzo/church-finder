@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Organization extends Model
+class Country extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'organization';
+    protected $table = 'country';
 
     public static function allIndexById()
     {
         $return = [];
-        $orgs = self::all();
-        foreach ($orgs as $org) {
-            $return[$org->id] = $org->name;
+        $countries = self::orderBy('prioritize', 'desc')->get();
+        foreach ($countries as $c) {
+            $return[$c->id] = $c->name;
         }
         return $return;
     }

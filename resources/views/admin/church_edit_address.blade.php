@@ -20,6 +20,13 @@
             });
         }
     }
+    function deleteAddress(id) {
+        $('#div_' + id).addClass('alert-danger');
+        if (confirm('Are you sure you want to delete this address record?')) {
+            window.location = '/admin/church/{{ $church->id }}/address/delete/' + id;
+        }
+        $('#div_' + id).removeClass('alert-danger');
+    }
 </script>
 <div id="debug"></div>
 <div class="container">
@@ -37,13 +44,13 @@
                     </ul>
                 </div>
             @endif
-            <div class="panel panel-default" style="background-color: #f2f2f2;">
             @foreach ($addresses as $cnt => $addr)
-            <form action="{{ URL::to('admin/church/edit/' . $church->id . '/address/' . $addr->id) }}" method="POST">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="panel panel-default" style="background-color: #f2f2f2;" id="div_{{ $addr->id }}">
+            <form action="{{ URL::to('admin/church/' . $church->id . '/address/') }}/{{ ($addr->id > 0) ? $addr->id : 'new' }}" method="POST">
+                {{ Form::token() }}
                 <table>
                     <tr>
-                        <td colspan="2"><h4>Address Record #{{ $cnt+1 }}</h4></td>
+                        <td colspan="2"><h4>{{ ($addr->id > 0) ? '' : 'Create New ' }}Address Record {{ ($addr->id > 0) ? '#' . ($cnt+1) : '' }}</h4></td>
                     </tr><tr>
                         <td class="form_cell_label">&nbsp;</td><td></td>
                     </tr><tr>
@@ -53,12 +60,18 @@
                     </tr><tr>
                         <td>&nbsp;</td><td></td>
                     </tr>
-                    @include('admin.edit_church_address_fields')
+                    @include('admin.field_church_address')
                     <tr>
+                        <td class="form_cell_label">Primary</td>
+                        <td class="form_cell text">{{ Form::checkbox('primary', '1', $addr->primary)}}</td>
+                    </tr><tr>
                         <td>&nbsp;</td><td class="text">
                             <button type="submit" class="btn btn-primary">
                                 {!! FA::icon('hand-o-right') !!}&nbsp;&nbsp;Save
-                            </button>
+                            </button> 
+                            @if ($addr->id > 0) 
+                                or <a href="#" onclick="deleteAddress({{ $addr->id }})">Delete</a>
+                            @endif
                         </td>
                     </tr><tr>
                         <td>&nbsp;</td>
@@ -68,8 +81,8 @@
                     </tr>
                 </table>
             </form>
-            @endforeach
             </div>
+            @endforeach
         </div>
     </div>
 </div>

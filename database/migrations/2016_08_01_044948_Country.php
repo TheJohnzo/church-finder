@@ -15,6 +15,8 @@ class Country extends Migration
         Schema::create('country', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');//not doing multilingual country names, just going to display flags.
+            $table->string('code');
+            $table->boolean('prioritize')->default(false);
             $table->timestamps();
         });
     }

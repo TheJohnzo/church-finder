@@ -12,4 +12,14 @@ class ChurchSize extends Model
      * @var string
      */
     protected $table = 'church_size';
+
+    public static function allIndexBySize()
+    {
+        $return = [];
+        $sizes = self::all();
+        foreach ($sizes as $size) {
+            $return[$size->text] = $size->text;
+        }
+        return $return;
+    }
 }

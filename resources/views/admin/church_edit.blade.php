@@ -18,7 +18,7 @@
             @endif
             <div class="panel panel-default" style="background-color: #f2f2f2;">
             <form action="{{ URL::to('admin/church/edit/' . $church->id) }}" method="POST">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                {{ Form::token() }}
                 <table>
                     <tr>
                         <td>&nbsp;</td><td></td>
@@ -55,36 +55,20 @@
                     </tr>
 <!-- show all addresses, read-only -->
                     @foreach ($addresses as $cnt => $addr)
-                        @include('admin.edit_church_address_fields')
+                        @include('admin.field_church_address')
                     @endforeach
 <!-- end loop -->
                     <tr>
                         <td>&nbsp;</td><td></td>
                     </tr><tr>
                         <td class="form_cell_label">Size</td><td class="text form_cell">
-                            <select name="size_in_people" id="size_in_people">
-                                <option value="">select one...</option>
-                                @foreach ($sizes as $size)
-                                <option value="{{ $size->text }}"
-                                    @if ($size->text === $church->size_in_people)
-                                        selected="SELECTED"
-                                    @endif
-                                >{{ $size->text }}</option>
-                                @endforeach
-                            </select>
+                            {{ Form::select('size_in_people', $sizes, $church->size_in_people, ['id' => 'size_in_people']) }}
                         </td>
                     </tr><tr>
                         <td>&nbsp;</td><td></td>
                     </tr><tr>
                         <td class="form_cell_label">Languages Spoken</td><td class="text form_cell" style="">
-                                @foreach ($languages as $lang)
-                                    <span class="flag-icon flag-icon-{{ $lang['primary_country'] }}" 
-                                        style="background-size: contain;background-position: 50%;background-repeat: no-repeat;height:25px;width:40px;"></span>
-                                    <input type="checkbox" name="languages[]" id="languages_{{ $lang->code }}" 
-                                        {{ $church_languages[$lang->code] or '' }}
-                                    value="{{ $lang->code }}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                @endforeach
-                            </select>
+                                @include('admin.language_picker')
                         </td>
                     </tr><tr>
                         <td>&nbsp;</td><td></td>
@@ -114,16 +98,13 @@
                         </td>
                     </tr><tr>
                         <td class="form_cell_label">Organizations</td><td class="text form_cell">
-                            <select name="church_organizations[]" id="church_organizations" size="4" multiple="true">
-                                <option value="">select one...</option>
-                                @foreach ($organizations as $org)
-                                <option value="{{ $org->id }}"
-                                    @if (in_array($org->id, $church_organizations))
-                                        SELECTED
-                                    @endif
-                                >{{ $org->name }}</option>
-                                @endforeach
-                            </select>
+                            {{ Form::select('church_organizations[]', $organizations, $church_organizations, 
+                                [
+                                    'placeholder' => 'Select one or more',
+                                    'id' => 'church_organizations',
+                                    'multiple' => 'true',
+                                    'size' => '4'
+                                ]) }}
                         </td>
                     </tr><tr>
                         <td>&nbsp;</td><td class="text form_cell">

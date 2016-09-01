@@ -48,7 +48,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                    Kyoukai.jp
                 </a>
             </div>
 
@@ -59,6 +59,7 @@
                     <li><a href="{{ url('/admin/church') }}">Churches</a></li>
                     <li><a href="{{ url('/admin/organization') }}">Organizations</a></li>
                     <li><a href="{{ url('/admin/tag') }}">Tags</a></li>
+                    <li><a href="{{ url('/map') }}" target="_blank">Map</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

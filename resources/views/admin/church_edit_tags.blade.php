@@ -19,7 +19,7 @@
             @endif
             <div class="panel panel-default" style="background-color: #f2f2f2;">
             <form action="{{ URL::to('admin/church/edit/' . $church->id . '/tag/') }}" method="POST">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                {{ Form::token() }}
                 <table>
                     <tr>
                         <td colspan="2"><h4>Address Record #</h4></td>
