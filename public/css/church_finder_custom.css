@@ -1,6 +1,10 @@
 table {
     width: 100%;
 }
+table.data {
+    background-color: #FFFFFF;
+}
+
 td {
     padding: 5px;
     min-width: 50px;
@@ -64,4 +68,7 @@ input[readonly], input[disabled] {
 .alert-save {
     background-color: #4F6EC2 !important;
     opacity: 0.5;
+}
+.tab_div {
+    background-color: #F2F2F2 !important;
 }

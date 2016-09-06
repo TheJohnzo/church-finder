@@ -9,7 +9,7 @@
                 <div class="panel-heading">Church Admin</div>
 
                 <div class="panel-body">
-                    <table border="1" style="width: 100%;">
+                    <table border="1" class="data">
                     <thead><tr>
                         <td>ID</td>
                         <td>Name</td>

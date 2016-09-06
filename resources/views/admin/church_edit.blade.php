@@ -16,7 +16,7 @@
                     </ul>
                 </div>
             @endif
-            <div class="panel panel-default" style="background-color: #f2f2f2;">
+            <div class="panel panel-default tab_div">
             <form action="{{ URL::to('admin/church/edit/' . $church->id) }}" method="POST">
                 {{ Form::token() }}
                 <table>

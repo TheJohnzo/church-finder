@@ -18,7 +18,7 @@
                 <div class="panel-heading">Tag Admin</div>
 
                 <div class="panel-body">
-                    <table border="1" style="width: 100%;">
+                    <table border="1" class="data">
                     <thead><tr>
                         <td>Tag #</td>
                         <td>Tag Name</td>

@@ -24,19 +24,26 @@ class TagTranslation extends Model
         return $return;
     }
 
-    public static function allWithChurch($church_id, $languages)
+    public static function allWithChurch($church_id, $request)
     {
-        $where = '';
+        $languages = $request->languages;
+        $search = $request->search;
+        $where = 'WHERE 1=1';
         if (is_array($languages)) {
-            $where = 'WHERE l.code IN (\'' . implode("','", $languages) . '\')';
+            $where .= ' AND l.code IN (\'' . implode("','", $languages) . '\')';
         }
-        return DB::select('
+        if ($search) {
+            $where .= ' AND tt.tag_id IN (SELECT tag_id FROM tag_translation WHERE lower(tag) LIKE lower(?))';
+        }
+        $sql = '
         SELECT tt.*, l.primary_country, ct.id as tagged
         FROM 
         tag_translation tt
         JOIN language l ON tt.language = l.code
         LEFT JOIN church_tag ct ON tt.tag_id = ct.tag_id
-        ' . $where);
+        ' . $where;
+        //dd($sql);
+        return DB::select($sql, ['%' . $search . '%']);
     }
 
 }

@@ -29,7 +29,7 @@ class ChurchAdminController extends Controller
             'organizations' => \App\Organization::allIndexById(),
             'sizes' => \App\ChurchSize::allIndexBySize(),
         ];
-        return view('admin/new_church', $data);
+        return view('admin/church_new', $data);
     }
 
     public function insertChurch(Request $request)
@@ -186,7 +186,7 @@ class ChurchAdminController extends Controller
     public function editChurchTags($id, Request $request)
     {
         $church = \App\Church::findorfail($id);
-        $tags = \App\TagTranslation::allWithChurch($id, $request->languages);
+        $tags = \App\TagTranslation::allWithChurch($id, $request);
         $selected_languages = [];
         if (is_array($request->languages)) {
             foreach ($request->languages as $lang) {
@@ -195,6 +195,7 @@ class ChurchAdminController extends Controller
         }
         $data = [
             'id' => $id,
+            'search' => $request->search,
             'tags' => $tags,
             'twocolumn' => (count($tags) > 20) ? true : false,
             'church' => $church,
