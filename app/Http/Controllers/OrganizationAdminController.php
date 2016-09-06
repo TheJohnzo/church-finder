@@ -22,6 +22,7 @@ class OrganizationAdminController extends Controller
     {
         $data = [
             'countries' => \App\Country::allIndexById(),
+            'languages' => \App\Language::allIndexByCode(),
         ];
         return view('admin/organization_new', $data);
     }
@@ -40,7 +41,9 @@ class OrganizationAdminController extends Controller
         $data = [
             'organization' => $organization,
             'countries' => \App\Country::allIndexById(),
-            'active_countries' => \App\OrganizationCountry::allByOrgIdCountryIdOnly($id)
+            'active_countries' => \App\OrganizationCountry::allByOrgIdCountryIdOnly($id),
+            'infos' => \App\OrganizationInfo::allByOrgIdIndexByLanguage($id),
+            'languages' => \App\Language::allIndexByCode(),
         ];
         return view('admin/organization_edit', $data);
     }
@@ -60,6 +63,10 @@ class OrganizationAdminController extends Controller
             'national_url'  => 'url',
             'global_url'    => 'url',
         );
+        $languages = \App\Language::allIndexByCode();
+        foreach ($languages as $lang) {
+            $rules['description_' . $lang['code']] = 'required';
+        }
         $validator = \Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return \Redirect::to('admin/organization/edit/' . $organization->id)
@@ -71,6 +78,20 @@ class OrganizationAdminController extends Controller
             $organization->national_url = $request->national_url;
             $organization->global_url = $request->global_url;
             $organization->save();
+
+            foreach ($languages as $lang) {
+                $info = \App\OrganizationInfo::where('organization_id', $organization->id)
+                    ->where('language', $lang['code'])
+                    ->first();
+                if (!$info) {
+                    $info = new \App\OrganizationInfo;
+                    $info->organization_id = $organization->id;
+                    $info->language = $lang['code'];
+                }
+                $descField = 'description_' . $lang['code'];
+                $info->description = $request->$descField;
+                $info->save();
+            }
 
             //clean up country relations
             $organization_countries = [];

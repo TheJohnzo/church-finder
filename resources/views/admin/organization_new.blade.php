@@ -21,23 +21,33 @@
                         <tr>
                             <td class="form_cell_label">&nbsp;</td><td class="text form_cell"></td>
                         </tr><tr>
-                            <td class="form_cell_label">Name</td><td  class="text form_cell">
+                            <td class="form_cell_label">Name</td><td class="text form_cell">
                                 <input type="text" id="name" name="name" value="{{ old('name') }}" />
                             </td>
-                        </tr><tr>
-                            <td class="form_cell_label">Size in Churches</td><td  class="text form_cell">
+                        </tr>
+                        @foreach ($languages as $lang)
+                        <tr>
+                            <td class="form_cell_label">Description <span class="flag-icon flag-icon-{{ $lang['primary_country'] }}" 
+                            style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"></span></td>
+                            <td class="text form_cell">
+                            <textarea name="description_{{ $lang['code'] }}">{{ old('description_' . $lang['code']) }}</textarea>
+                            </td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td class="form_cell_label">Size in Churches</td><td class="text form_cell">
                                 <input type="number" name="size_in_churches" id="size_in_churches" value="{{ old('size_in_churches') }}" />
                             </td>
                         </tr><tr>
-                            <td class="form_cell_label">National Url</td><td  class="text form_cell">
+                            <td class="form_cell_label">National Url</td><td class="text form_cell">
                                 <input type="text" id="national_url" name="national_url" value="{{ old('national_url') }}" placeholder="e.g. http://church.jp" />
                             </td>
                         </tr><tr>
-                            <td class="form_cell_label">Global Url</td><td  class="text form_cell">
+                            <td class="form_cell_label">Global Url</td><td class="text form_cell">
                                 <input type="text" id="global_url" name="global_url" value="{{ old('global_url') }}" placeholder="e.g. http://church.org" />
                             </td>
                         </tr><tr>
-                            <td class="form_cell_label">Countries Active In</td><td  class="text form_cell">
+                            <td class="form_cell_label">Countries Active In</td><td class="text form_cell">
                                 {{ Form::select('countries[]', $countries, old('countries'), 
                                 [
                                     'multiple' => true,

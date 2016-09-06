@@ -183,17 +183,50 @@ class ChurchAdminController extends Controller
         }
     }
 
-    public function editChurchTags($id)
+    public function editChurchTags($id, Request $request)
     {
         $church = \App\Church::findorfail($id);
-
+        $tags = \App\TagTranslation::allWithChurch($id, $request->languages);
+        $selected_languages = [];
+        if (is_array($request->languages)) {
+            foreach ($request->languages as $lang) {
+                $selected_languages[$lang] = 'checked';
+            }
+        }
         $data = [
+            'id' => $id,
+            'tags' => $tags,
+            'twocolumn' => (count($tags) > 20) ? true : false,
             'church' => $church,
             'languages' => \App\Language::all(),
+            'church_languages' => $selected_languages,
             'msg' => session('message'),
             'tag_page' => 'active',
         ];
-        return view('admin.church_tags_edit', $data);
+        return view('admin.church_tags', $data);
+    }
+
+    public function saveChurchTags($id, Request $request)
+    {
+        $church_tag = \App\ChurchTag::where('church_id', $id)
+            ->where('tag_id', $request->tagid)
+            ->first();
+        $saved = true;
+
+        if ($request->checked === 'true' && !$church_tag) {
+            $church_tag = new \App\ChurchTag;
+            $church_tag->church_id = $id;
+            $church_tag->tag_id = $request->tagid;
+            $church_tag->save();
+        }
+
+        if ($request->checked === 'false' && $church_tag) {
+            $church_tag->delete();
+            $saved = false;
+        }
+
+        $data = ['saved' => $saved, 'checked' => $request->checked];
+        return json_encode($data);
     }
 
 }

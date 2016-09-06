@@ -32,6 +32,10 @@ Route::post('/admin/church/{id}/address/{new}', 'AddressAdminController@insertCh
 Route::get('/admin/church/{id}/address/delete/{address_id}', 'AddressAdminController@deleteChurchAddress');
 Route::post('/admin/church/lookupaddress', 'AddressAdminController@lookupAddresses');
 
+Route::any('/admin/church/{id}/tag', 'ChurchAdminController@editChurchTags');
+Route::post('/admin/church/{id}/tag/save', 'ChurchAdminController@saveChurchTags');
+
+
 Route::get('/admin/tag', 'TagAdminController@index');
 Route::get('/admin/tag/new', 'TagAdminController@newTag');
 Route::post('/admin/tag/new', 'TagAdminController@insertTag');

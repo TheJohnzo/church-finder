@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class OrganizationDescription extends Migration
+class OrganizationInfo extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,9 @@ class OrganizationDescription extends Migration
      */
     public function up()
     {
-        Schema::create('organization_description', function (Blueprint $table) {
+        Schema::create('organization_info', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->string('description');
             $table->string('language');
             $table->integer('organization_id')->unsigned();

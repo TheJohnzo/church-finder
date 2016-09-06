@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class TagTranslation extends Model
 {
@@ -21,6 +22,21 @@ class TagTranslation extends Model
             $return[$t['language']] = $t['tag'];
         }
         return $return;
+    }
+
+    public static function allWithChurch($church_id, $languages)
+    {
+        $where = '';
+        if (is_array($languages)) {
+            $where = 'WHERE l.code IN (\'' . implode("','", $languages) . '\')';
+        }
+        return DB::select('
+        SELECT tt.*, l.primary_country, ct.id as tagged
+        FROM 
+        tag_translation tt
+        JOIN language l ON tt.language = l.code
+        LEFT JOIN church_tag ct ON tt.tag_id = ct.tag_id
+        ' . $where);
     }
 
 }

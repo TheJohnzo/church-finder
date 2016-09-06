@@ -30,6 +30,12 @@ body {
     font-family: 'Lato';
 }
 
+.small_button {
+    width: 75px;
+    height: 30px;
+    padding: 0px !important;
+}
+
 .fa-btn {
     margin-right: 6px;
 }
@@ -54,4 +60,8 @@ input[readonly], input[disabled] {
 }
 .alert-danger {
     background-color: #f2dede !important;
+}
+.alert-save {
+    background-color: #4F6EC2 !important;
+    opacity: 0.5;
 }

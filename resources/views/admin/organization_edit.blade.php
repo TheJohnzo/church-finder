@@ -26,7 +26,17 @@
                             <td class="form_cell_label">Name</td><td  class="text form_cell">
                                 <input type="text" id="name" name="name" value="{{ $organization->name }}" />
                             </td>
-                        </tr><tr>
+                        </tr>
+                        @foreach ($languages as $lang)
+                        <tr>
+                            <td class="form_cell_label">Description <span class="flag-icon flag-icon-{{ $lang['primary_country'] }}" 
+                            style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"></span></td>
+                            <td class="text form_cell">
+                            <textarea name="description_{{ $lang['code'] }}">{{ @$infos[$lang['code']]->description }}</textarea>
+                            </td>
+                        </tr>
+                        @endforeach
+                        <tr>
                             <td class="form_cell_label">Size in Churches</td><td  class="text form_cell">
                                 <input type="number" name="size_in_churches" id="size_in_churches" value="{{ $organization->size_in_churches }}" />
                             </td>
