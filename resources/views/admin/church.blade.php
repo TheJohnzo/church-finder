@@ -7,8 +7,13 @@
             <div align="center"><h3>{!! $msg !!}</h3></div>
             <div class="panel panel-default">
                 <div class="panel-heading">Church Admin</div>
-
                 <div class="panel-body">
+                    <div align="right">
+                        {!! FA::icon('info-circle') !!} = Name, 
+                        {!! FA::icon('map-marker') !!} = Address, 
+                        {!! FA::icon('clock-o') !!} = Meeting Time, 
+                        {!! FA::icon('phone') !!} = Contact Info
+                    </div>
                     <table border="1" class="data">
                     <thead><tr>
                         <td>ID</td>
@@ -19,6 +24,7 @@
                         <td>Contact Email</td>
                         <td>Created At</td>
                         <td>Updated At</td>
+                        <td>Missing Data</td>
                     </thead></tr>
                     @forelse ($churches as $key => $church)
                         <tr>
@@ -30,10 +36,17 @@
                             <td>{{ $church['contact_email'] }}</td>
                             <td>{{ $church['created_at'] }}</td>
                             <td>{{ $church['updated_at'] }}</td>
+                            <td style="font-size: 18px;"><span style="color: red;">
+                                {!! (isset($missing_info[$church['id']])) ? FA::icon('info-circle') : '' !!}
+                                {!! (isset($missing_address[$church['id']])) ? FA::icon('map-marker') : '' !!}
+                            </span><span style="color: orange;">
+                                {!! (isset($missing_meeting_time[$church['id']])) ? FA::icon('clock-o') : '' !!}
+                                {!! (isset($missing_contact[$church['id']])) ? FA::icon('phone') : '' !!}
+                            </span></td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8">No churches found in the database...</td>
+                            <td colspan="9">No churches found in the database...</td>
                         </tr>
                     @endforelse
                     </table>

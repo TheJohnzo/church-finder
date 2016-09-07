@@ -47,6 +47,7 @@ class ChurchFinderController extends Controller
 
     public function index(Request $request)
     {
+        $lang = ($request->lang) ? $request->lang : 'en';
         $params = ['zoom' => 14, 'type' => 'HYBRID', 'marker' => false];
         $data = [
             'search' => $request->input('search'), 
@@ -60,7 +61,7 @@ class ChurchFinderController extends Controller
                 $location = Mapper::location($request->input('search'));
                 Mapper::map($location->getLatitude(), $location->getLongitude(), $params);
 
-                //find nearby churches, default 20km TODO make distance variable
+                //find nearby churches, default 20km
                 $locations = \App\Church::findChurchesNearLatLon($location->getLatitude(), $location->getLongitude(), $request->input('distance'));
                 $data['msg'] = "Found " . count($locations) . " churches";
 
@@ -75,14 +76,17 @@ class ChurchFinderController extends Controller
             $this->getDefaultLocation($params);
             //When not searching, show all churches to populate map.  TODO evaluate performance.
             $locations = \App\Church::all();
+            $locations = $locations->all();
         }
 
         foreach ($locations as $key => &$l) {
-            $info = \App\ChurchInfo::where('church_id', $l->id)
-                ->where('language', 'en')//FIXME default only english during dev
+
+            $church_id = (isset($l->church_id)) ? $l->church_id : $l->id;
+            $info = \App\ChurchInfo::where('church_id', $church_id)
+                ->where('language', $lang)
                 ->first();
 
-            $address = \App\ChurchAddress::where('church_id', $l->id)
+            $address = \App\ChurchAddress::where('church_id', $church_id)
                 ->where('primary', 1)
                 ->first();
             if (!$address) {
@@ -90,7 +94,7 @@ class ChurchFinderController extends Controller
                 continue;//if no address, skip ahead
             }
             $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $address['id'])
-                ->where('language', 'en')//FIXME default only english during dev
+                ->where('language', $lang)
                 ->first();
             Mapper::informationWindow($address['latitude'], $address['longitude'], $info['name']);
 
@@ -100,7 +104,7 @@ class ChurchFinderController extends Controller
             $l->long = $address['longitude'];
             $l->addr = $addressLabel['addr'];
         }
-        $data['locations'] = array_values($locations->all());
+        $data['locations'] = array_values($locations);
 
         return view('ChurchFinderDemo', $data);
     }

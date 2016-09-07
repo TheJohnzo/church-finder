@@ -14,7 +14,6 @@
     <div class="row">
         <div align="center"><h3>{!! $msg !!}</h3></div>
         <div class="col-md-10 col-md-offset-1">
-            <h4>Church Meeting Times</h4>
             @include('admin.church_menu')
             <div class="panel panel-default tab_div">
                 <div class="panel-body">

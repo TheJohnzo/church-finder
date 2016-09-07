@@ -50,7 +50,7 @@ class MeetingTimeAdminController extends Controller
         $data = [
             'church' => $church,
             'time' => $time,
-            'church_languages' => $meeting_time_languages,
+            'selected_languages' => $meeting_time_languages,
             'languages' => \App\Language::all(),
             'addresses' => \App\ChurchAddress::byChurchIdAndLanguageIndexByAddressId($id, 'en'),//FIXME only english in admin
             'days' => $this->getDays(),

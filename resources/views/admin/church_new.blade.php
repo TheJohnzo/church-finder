@@ -5,7 +5,7 @@
     <div class="row">
         <div align="center"><h3>{!! $msg or '' !!}</h3></div>
         <div class="col-md-10 col-md-offset-1">
-            <h4>Edit Church</h4>
+            <h4>Create New Church</h4>
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>

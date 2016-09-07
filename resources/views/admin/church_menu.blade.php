@@ -1,3 +1,4 @@
+<h4>#{{ $church->id}} - {{ $church->info()->first()->name }}</h4>
 <ul class="nav nav-tabs">
     <li class="{{ $church_page or '' }}"><a href="/admin/church/edit/{{ $church->id }}">Church Details</a></li>
     <li class="{{ $address_page or '' }}"><a href="/admin/church/{{ $church->id }}/address">Addresses</a></li>

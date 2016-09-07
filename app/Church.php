@@ -16,6 +16,14 @@ class Church extends Model
     protected $table = 'church';
 
     /**
+     * Get the info for the church.
+     */
+    public function info()
+    {
+        return $this->hasMany('App\ChurchInfo');
+    }
+
+    /**
      * @param $latitude  Lat coordinate of search value
      * @param $longitude  Lon coordinate of search value
      * @param $distance  Max distance allowed in Meters, default 25
@@ -40,7 +48,7 @@ class Church extends Model
         foreach (\App\ChurchAddress::where('church_id', $id)->cursor() as $a) {
 
             $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $a->id)
-                ->where('language', 'en')//FIXME default only english during dev
+                ->where('language', 'en')
                 ->first();
 
             $location = Mapper::location($addressLabel['addr']);
@@ -78,5 +86,73 @@ class Church extends Model
         $info->language = 'en';
         $info->save();
     }
-    
+
+    public static function allMissingInfo()
+    {
+        $q = "
+        SELECT c.id as church_id, count(ci.id) 
+        FROM church c
+        LEFT JOIN church_info ci ON c.id = ci.church_id
+        WHERE ci.name <> ''
+        GROUP BY c.id
+        HAVING count(ci.id) < (SELECT count(id) FROM language)";
+        $return = [];
+        foreach (DB::select($q) as $r) {
+            $return[$r->church_id] = true;
+        }
+        return $return;
+    }
+
+    public static function allMissingAddress()
+    {
+        $q = "
+        SELECT c.id as church_id
+        FROM church c
+        LEFT JOIN church_address ca ON c.id = ca.church_id
+        GROUP BY c.id
+        HAVING count(ca.id) < 1
+
+        UNION
+
+        SELECT c.id as church_id
+        FROM church c
+        JOIN church_address ca ON c.id = ca.church_id
+        LEFT JOIN church_address_label cal ON ca.id = cal.church_address_id
+        GROUP BY c.id
+        HAVING count(cal.id) < (SELECT count(id) FROM language)
+        ";
+        $return = [];
+        foreach (DB::select($q) as $r) {
+            $return[$r->church_id] = true;
+        }
+        return $return;
+    }
+
+    public static function allMissingMeetingTime()
+    {
+        $q = "
+        SELECT c.id as church_id, count(cmt.id) 
+        FROM church c
+        LEFT JOIN church_meeting_time cmt ON c.id = cmt.church_id
+        GROUP BY c.id
+        HAVING count(cmt.id) < 1";
+        $return = [];
+        foreach (DB::select($q) as $r) {
+            $return[$r->church_id] = true;
+        }
+        return $return;
+    }
+
+    public static function allMissingContact()
+    {
+        $q = "
+        SELECT c.id as church_id 
+        FROM church c
+        WHERE length(contact_email) = 0 OR length(contact_phone) = 0";
+        $return = [];
+        foreach (DB::select($q) as $r) {
+            $return[$r->church_id] = true;
+        }
+        return $return;
+    }
 }

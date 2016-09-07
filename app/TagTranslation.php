@@ -40,10 +40,10 @@ class TagTranslation extends Model
         FROM 
         tag_translation tt
         JOIN language l ON tt.language = l.code
-        LEFT JOIN church_tag ct ON tt.tag_id = ct.tag_id
+        LEFT JOIN ( SELECT * FROM church_tag WHERE church_id = ?) ct ON tt.tag_id = ct.tag_id
         ' . $where;
-        //dd($sql);
-        return DB::select($sql, ['%' . $search . '%']);
+
+        return DB::select($sql, [$church_id, '%' . $search . '%']);
     }
 
 }

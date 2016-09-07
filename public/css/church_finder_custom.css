@@ -1,3 +1,6 @@
+body#map-layout {
+    background-color: #f2f2f2;
+}
 table {
     width: 100%;
 }

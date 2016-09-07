@@ -17,6 +17,10 @@ class ChurchAdminController extends Controller
             'churchInfo' => \App\ChurchInfo::allByLanguageIndexed('en'),//FIXME only english during dev
             'msg' => session('message'),
             'sizes' => \App\ChurchSize::all(),
+            'missing_info' => \App\Church::allMissingInfo(),
+            'missing_address' => \App\Church::allMissingAddress(),
+            'missing_meeting_time' => \App\Church::allMissingMeetingTime(),
+            'missing_contact' => \App\Church::allMissingContact(),
         ];
         return view('admin/church', $data);
     }
@@ -83,7 +87,7 @@ class ChurchAdminController extends Controller
             'languages' => \App\Language::all(),
             'addresses' => \App\ChurchAddress::where('church_id', $id)->get(),
             'address_labels' => \App\ChurchAddressLabel::allByChurchId($id),
-            'church_languages' => \App\ChurchLanguage::allIndexByLanguage($id),
+            'selected_languages' => \App\ChurchLanguage::allIndexByLanguage($id),
             'msg' => session('message'),
             'church_page' => 'active',
         ];
@@ -200,7 +204,7 @@ class ChurchAdminController extends Controller
             'twocolumn' => (count($tags) > 20) ? true : false,
             'church' => $church,
             'languages' => \App\Language::all(),
-            'church_languages' => $selected_languages,
+            'selected_languages' => $selected_languages,
             'msg' => session('message'),
             'tag_page' => 'active',
         ];
