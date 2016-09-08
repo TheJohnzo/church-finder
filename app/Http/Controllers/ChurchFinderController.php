@@ -82,6 +82,7 @@ class ChurchFinderController extends Controller
         foreach ($locations as $key => &$l) {
 
             $church_id = (isset($l->church_id)) ? $l->church_id : $l->id;
+            $l->church_id = $church_id;//standardize for easier view
             $info = \App\ChurchInfo::where('church_id', $church_id)
                 ->where('language', $lang)
                 ->first();
@@ -107,6 +108,31 @@ class ChurchFinderController extends Controller
         $data['locations'] = array_values($locations);
 
         return view('ChurchFinderDemo', $data);
+    }
+
+    public function churchDetail($id, Request $request)
+    {
+        $church = \App\Church::findorfail($id);
+        $data = [
+            'church' => $church,
+            'languages' => \App\Language::allIndexByCode(),
+            'days' => $this->getDays(),
+        ];
+        return view('ChurchFinderDetail', $data);
+    }
+
+    protected function getDays()
+    {
+        //FIXME need multilingual solution
+        return [
+            0 => 'Sunday',
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+        ];
     }
 
     protected function getDefaultLocation($params)

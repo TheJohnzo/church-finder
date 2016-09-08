@@ -9,18 +9,34 @@ use App\Http\Requests;
 
 class ChurchAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $churches = \App\Church::paginate(20);
+        $churches = \App\Church::select('church.*', 'church_info.name')
+            ->join('church_info', 'church.id', 'church_info.church_id')
+            ->where('language', 'en');//default only filter by language #FIXME only english during dev
+        if ($request->search) {
+            $churches->where(function ($q) use ($request) {
+                $q->whereRaw('LOWER(name) LIKE \'%' . strtolower($request->search) . '%\'');
+                $q->orWhereRaw('LOWER(url) LIKE \'%' . strtolower($request->search) . '%\'');
+                $q->orWhereRaw('LOWER(contact_phone) LIKE \'%' . strtolower($request->search) . '%\'');
+                $q->orWhereRaw('LOWER(contact_email) LIKE \'%' . strtolower($request->search) . '%\'');
+            });
+        }
+        if ($request->sort && $request->dir) {
+            $churches->orderBy($request->sort, $request->dir);
+        }
         $data = [
-            'churches' => $churches,
-            'churchInfo' => \App\ChurchInfo::allByLanguageIndexed('en'),//FIXME only english during dev
+            'churches' => $churches->paginate(20),
             'msg' => session('message'),
             'sizes' => \App\ChurchSize::all(),
             'missing_info' => \App\Church::allMissingInfo(),
             'missing_address' => \App\Church::allMissingAddress(),
             'missing_meeting_time' => \App\Church::allMissingMeetingTime(),
             'missing_contact' => \App\Church::allMissingContact(),
+            //for data grid
+            'sort' => $request->sort,
+            'dir' => $request->dir,
+            'search' => $request->search
         ];
         return view('admin/church', $data);
     }

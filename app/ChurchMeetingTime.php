@@ -12,4 +12,14 @@ class ChurchMeetingTime extends Model
      * @var string
      */
     protected $table = 'church_meeting_time';
+
+
+    /**
+     * Get the meeting time languages for the meeting.
+     */
+    public function language()
+    {
+        return $this->hasMany('App\ChurchMeetingTimeLanguage');
+    }
+
 }

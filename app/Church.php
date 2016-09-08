@@ -24,6 +24,39 @@ class Church extends Model
     }
 
     /**
+     * Get the address for the church.
+     */
+    public function address()
+    {
+        return $this->hasMany('App\ChurchAddress');
+    }
+
+    /**
+     * Get the meetings for the church.
+     */
+    public function meetingtime()
+    {
+        return $this->hasMany('App\ChurchMeetingTime');
+    }
+
+    /**
+     * Get the organizations for the church.
+     */
+    public function organization()
+    {
+        return $this->belongsToMany('App\Organization');
+    }
+
+    /**
+     * Get the organizations for the church.
+     */
+    public function tag()
+    {
+        return $this->belongsToMany('App\tag');
+    }
+
+
+    /**
      * @param $latitude  Lat coordinate of search value
      * @param $longitude  Lon coordinate of search value
      * @param $distance  Max distance allowed in Meters, default 25

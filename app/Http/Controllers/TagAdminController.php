@@ -8,13 +8,26 @@ use App\Http\Requests;
 
 class TagAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tags = \App\TagTranslation::paginate(20);
+        $tags = \App\TagTranslation::select('*');
+
+        if ($request->search) {
+            $tags->where(function ($q) use ($request) {
+                $q->whereRaw('LOWER(tag) LIKE \'%' . strtolower($request->search) . '%\'');
+            });
+        }
+        if ($request->sort && $request->dir) {
+            $tags->orderBy($request->sort, $request->dir);
+        }
         $data = [
-            'tags' => $tags,
+            'tags' => $tags->paginate(20),
             'languages' => \App\Language::allIndexByCode(),
             'msg' => session('message'),
+            //for data grid
+            'sort' => $request->sort,
+            'dir' => $request->dir,
+            'search' => $request->search
         ];
         return view('admin/tags', $data);
     }

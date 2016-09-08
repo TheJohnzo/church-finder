@@ -15,16 +15,30 @@
         <div class="col-md-10 col-md-offset-1">
             <div align="center"><h3>{!! $msg !!}</h3></div>
             <div class="panel panel-default">
-                <div class="panel-heading">Tag Admin</div>
-
+                <div class="panel-heading">Tag Admin - {{ $tags->count() }} records found</div>
                 <div class="panel-body">
+                    <div style="width: 100%; padding: 10px; background-color: #f2f2f2;" align="center">
+                        <form action="/{{ Request::path() }}" method="GET">
+                        <input type="hidden" name="sort" value="{{ $sort }}" />
+                        <input type="hidden" name="dir" value="{{ $dir }}" />
+                        Filter Tags: <input type="text" name="search" value="{{ $search }}" />
+                        <button type="submit" class="small_button btn btn-primary">Filter</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/{{ Request::path() }}">Clear Filter</a>
+                        </form>
+                    </div>
                     <table border="1" class="data">
                     <thead><tr>
-                        <td>Tag #</td>
-                        <td>Tag Name</td>
-                        <td>Language</td>
-                        <td>Created At</td>
-                        <td>Updated At</td>
+                        <td>Tag #<br />
+                            @include('admin.datagrid_header', ['field'=>'tag_id'])</td>
+                        <td>Tag Name<br />
+                            @include('admin.datagrid_header', ['field'=>'tag'])</td>
+                        <td>Language<br />
+                            @include('admin.datagrid_header', ['field'=>'language'])</td>
+                        <td>Created At<br />
+                            @include('admin.datagrid_header', ['field'=>'created_at'])</td>
+                        <td>Updated At<br />
+                            @include('admin.datagrid_header', ['field'=>'updated_at'])</td>
                         <td>Delete</td>
                     </thead></tr>
                     @forelse ($tags as $key => $tag)

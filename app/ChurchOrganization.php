@@ -13,6 +13,14 @@ class ChurchOrganization extends Model
      */
     protected $table = 'church_organization';
 
+    /**
+     * Get the organizations for the church.
+     */
+    public function organization()
+    {
+        return $this->hasMany('App\Organization');
+    }
+
     public static function addToOrganization($church_id, $organization_id)
     {
         $found = self::where('church_id', $church_id)

@@ -8,12 +8,27 @@ use App\Http\Requests;
 
 class OrganizationAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $organizations = \App\Organization::paginate(20);
+        $organizations = \App\Organization::select('*');
+
+        if ($request->search) {
+            $organizations->where(function ($q) use ($request) {
+                $q->whereRaw('LOWER(name) LIKE \'%' . strtolower($request->search) . '%\'');
+                $q->orWhereRaw('LOWER(national_url) LIKE \'%' . strtolower($request->search) . '%\'');
+                $q->orWhereRaw('LOWER(global_url) LIKE \'%' . strtolower($request->search) . '%\'');
+            });
+        }
+        if ($request->sort && $request->dir) {
+            $organizations->orderBy($request->sort, $request->dir);
+        }
         $data = [
-            'organizations' => $organizations,
+            'organizations' => $organizations->paginate(20),
             'msg' => session('message'),
+            //for data grid
+            'sort' => $request->sort,
+            'dir' => $request->dir,
+            'search' => $request->search
         ];
         return view('admin/organization', $data);
     }

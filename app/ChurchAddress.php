@@ -13,7 +13,15 @@ class ChurchAddress extends Model
      * @var string
      */
     protected $table = 'church_address';
-    
+
+    /**
+     * Get the address for the church.
+     */
+    public function label()
+    {
+        return $this->hasMany('App\ChurchAddressLabel');
+    }
+
     /**
      * For a given $church_id, return all language variations of the address
      */

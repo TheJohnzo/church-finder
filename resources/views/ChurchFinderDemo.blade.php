@@ -47,6 +47,7 @@
                     <strong>{{ $location->name }}</strong> <br />
                     {{ $location->addr }}
                     <a href="javascript:infowindow_{!! $key !!}.open(map_0, marker_{!! $key !!});highlightMapBox({!! $key !!});">Show</a>
+                    <a href="/church/{{ $location->church_id }}">Info</a>
                     @if (isset($location->distance))
                     <br />Distance: {{ round($location->distance, 2) }} km
                     @endif
@@ -63,5 +64,5 @@
         </div>
 
     </div>
-    @endsection
+@endsection
 

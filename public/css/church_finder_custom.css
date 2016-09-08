@@ -75,3 +75,9 @@ input[readonly], input[disabled] {
 .tab_div {
     background-color: #F2F2F2 !important;
 }
+.sort_link {
+    color: white;
+}
+.sort_link_active {
+    color: yellow;
+}

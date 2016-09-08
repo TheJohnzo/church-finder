@@ -13,4 +13,12 @@ class Tag extends Model
      */
     protected $table = 'tag';
 
+    /**
+     * Get the organizations for the church.
+     */
+    public function translation()
+    {
+        return $this->hasMany('App\TagTranslation');
+    }
+
 }
