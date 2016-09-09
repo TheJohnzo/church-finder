@@ -30,12 +30,12 @@
 
         <div>
         <form method="get">
-            <em style="font-size: 12px;">&nbsp; within &nbsp;</em>
+            <em style="font-size: 12px;">&nbsp; @lang('messages.within') &nbsp;</em>
             {{ Form::select('distance', [5=>5, 10=>10, 20=>20, 40=>40, 100=>100], $distance) }}
-            <em style="font-size: 12px;">&nbsp; of &nbsp;</em>
+            <em style="font-size: 12px;">&nbsp; @lang('messages.of') &nbsp;</em>
             <input name="search" value ="{{ $search }}"/> 
-            <input type="submit" value="search" />
-            &nbsp;<a href="{{ URL::to('map') }}">See All</a>
+            <input type="submit" value="@lang('messages.search')" />
+            &nbsp;<a href="{{ URL::to('map') }}">@lang('messages.see-all')</a>
         </form>
         </div>
 
@@ -46,10 +46,10 @@
                 <p style="background-color: #FFFFFF; padding: 5px; border: 1px solid black; width: 90%; min-height: 55px; text-align: left;" id="mapbox_{!! $key !!}">
                     <strong>{{ $location->name }}</strong> <br />
                     {{ $location->addr }}
-                    <a href="javascript:infowindow_{!! $key !!}.open(map_0, marker_{!! $key !!});highlightMapBox({!! $key !!});">Show</a>
-                    <a href="/church/{{ $location->church_id }}">Info</a>
+                    <a href="javascript:infowindow_{!! $key !!}.open(map_0, marker_{!! $key !!});highlightMapBox({!! $key !!});">@lang('messages.show')</a>
+                    <a href="/church/{{ $location->church_id }}/?lang={{ $lang }}">@lang('messages.see-more')</a>
                     @if (isset($location->distance))
-                    <br />Distance: {{ round($location->distance, 2) }} km
+                    <br />@lang('messages.distance'): {{ round($location->distance, 2) }} km
                     @endif
                 </p>
             @empty

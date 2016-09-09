@@ -175,15 +175,14 @@ class MeetingTimeAdminController extends Controller
 
     protected function getDays()
     {
-        //FIXME need multilingual solution
         return [
-            0 => 'Sunday',
-            1 => 'Monday',
-            2 => 'Tuesday',
-            3 => 'Wednesday',
-            4 => 'Thursday',
-            5 => 'Friday',
-            6 => 'Saturday',
+            0 => trans('messages.day_0'),
+            1 => trans('messages.day_1'),
+            2 => trans('messages.day_2'),
+            3 => trans('messages.day_3'),
+            4 => trans('messages.day_4'),
+            5 => trans('messages.day_5'),
+            6 => trans('messages.day_6'),
         ];
     }
 

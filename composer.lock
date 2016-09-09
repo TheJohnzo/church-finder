@@ -4,9 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9264ab6e79a6808c1d3a3cb1b68d66a7",
-    "content-hash": "2d96d86fe87f57b92b4b46facedf3a3a",
+    "hash": "3d79a87d7ed0c366965f87c2dee95155",
+    "content-hash": "4feaff281df3dbf87864e4ec5a0becf7",
     "packages": [
+        {
+            "name": "caouecs/laravel-lang",
+            "version": "3.0.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/caouecs/Laravel-lang.git",
+                "reference": "76f0d558ea0f8607b2916553e4f61876d72af587"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/caouecs/Laravel-lang/zipball/76f0d558ea0f8607b2916553e4f61876d72af587",
+                "reference": "76f0d558ea0f8607b2916553e4f61876d72af587",
+                "shasum": ""
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^1.10"
+            },
+            "suggest": {
+                "overtrue/laravel-lang": "Command to add languages in your project"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "caouecs",
+                    "email": "caouecs@caouecs.net"
+                }
+            ],
+            "description": "Languages for Laravel",
+            "keywords": [
+                "lang",
+                "languages",
+                "laravel",
+                "lpm"
+            ],
+            "time": "2016-08-23 07:36:00"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.0.0",
@@ -489,16 +529,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.3.6",
+            "version": "v5.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c63a7fb7066fea2bce91ace5c830c01d503abe6c"
+                "reference": "443764337de22705c115abe169472c24446764bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c63a7fb7066fea2bce91ace5c830c01d503abe6c",
-                "reference": "c63a7fb7066fea2bce91ace5c830c01d503abe6c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/443764337de22705c115abe169472c24446764bd",
+                "reference": "443764337de22705c115abe169472c24446764bd",
                 "shasum": ""
             },
             "require": {
@@ -612,7 +652,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-09-01 14:06:47"
+            "time": "2016-09-08 17:10:45"
         },
         {
             "name": "league/flysystem",

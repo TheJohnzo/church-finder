@@ -47,13 +47,16 @@ class ChurchFinderController extends Controller
 
     public function index(Request $request)
     {
-        $lang = ($request->lang) ? $request->lang : 'en';
+        $lang = ($request->lang) ? $request->lang : 'ja';
+        \App::setLocale($lang);
+        config(['googlmapper.language' => $lang]);
         $params = ['zoom' => 14, 'type' => 'HYBRID', 'marker' => false];
         $data = [
             'search' => $request->input('search'), 
             'msg' => null, 
             'distance' => $request->input('distance', 20),
-            'params' => $params
+            'params' => $params,
+            'lang' => $lang,
         ];
 
         if (strlen($request->input('search')) > 0) {
@@ -97,7 +100,8 @@ class ChurchFinderController extends Controller
             $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $address['id'])
                 ->where('language', $lang)
                 ->first();
-            Mapper::informationWindow($address['latitude'], $address['longitude'], $info['name']);
+            $infoText = view('ChurchMapInfoWindow', ['info' => $info, 'l' => $l, 'church_id' => $church_id]);
+            Mapper::informationWindow($address['latitude'], $address['longitude'], $infoText->render());
 
             //TODO better model to avoid adding adhoc params?
             $l->name = $info['name'];
@@ -112,27 +116,15 @@ class ChurchFinderController extends Controller
 
     public function churchDetail($id, Request $request)
     {
+        $lang = ($request->lang) ? $request->lang : 'ja';
+        \App::setLocale($lang);
         $church = \App\Church::findorfail($id);
         $data = [
             'church' => $church,
             'languages' => \App\Language::allIndexByCode(),
-            'days' => $this->getDays(),
+            'lang' => $lang,
         ];
         return view('ChurchFinderDetail', $data);
-    }
-
-    protected function getDays()
-    {
-        //FIXME need multilingual solution
-        return [
-            0 => 'Sunday',
-            1 => 'Monday',
-            2 => 'Tuesday',
-            3 => 'Wednesday',
-            4 => 'Thursday',
-            5 => 'Friday',
-            6 => 'Saturday',
-        ];
     }
 
     protected function getDefaultLocation($params)

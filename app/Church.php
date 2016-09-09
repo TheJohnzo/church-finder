@@ -52,7 +52,7 @@ class Church extends Model
      */
     public function tag()
     {
-        return $this->belongsToMany('App\tag');
+        return $this->belongsToMany('App\Tag');
     }
 
 
