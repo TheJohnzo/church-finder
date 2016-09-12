@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class ChurchAddress extends Model
 {
@@ -79,6 +80,18 @@ class ChurchAddress extends Model
         foreach ($addr as $a) {
             $a->ifOnlyMakePrimary();
         }
+    }
+
+    public function updateLatLongFromAddress()
+    {
+        $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $this->id)
+            ->where('language', 'en')
+            ->first();
+
+        $location = Mapper::location($addressLabel['addr']);
+        $this->latitude = $location->getLatitude();
+        $this->longitude = $location->getLongitude();
+        $this->save();
     }
 
 }

@@ -100,7 +100,7 @@ class ChurchFinderController extends Controller
             $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $address['id'])
                 ->where('language', $lang)
                 ->first();
-            $infoText = view('ChurchMapInfoWindow', ['info' => $info, 'l' => $l, 'church_id' => $church_id]);
+            $infoText = view('map_info_window', ['info' => $info, 'l' => $l, 'church_id' => $church_id]);
             Mapper::informationWindow($address['latitude'], $address['longitude'], $infoText->render());
 
             //TODO better model to avoid adding adhoc params?
@@ -111,7 +111,7 @@ class ChurchFinderController extends Controller
         }
         $data['locations'] = array_values($locations);
 
-        return view('ChurchFinderDemo', $data);
+        return view('church_finder', $data);
     }
 
     public function churchDetail($id, Request $request)
@@ -124,7 +124,19 @@ class ChurchFinderController extends Controller
             'languages' => \App\Language::allIndexByCode(),
             'lang' => $lang,
         ];
-        return view('ChurchFinderDetail', $data);
+        return view('church_detail', $data);
+    }
+
+    public function organizationDetail($id, Request $request)
+    {
+        $lang = ($request->lang) ? $request->lang : 'ja';
+        \App::setLocale($lang);
+        $org = \App\Organization::findorfail($id);
+        $data = [
+            'org' => $org,
+            'lang' => $lang,
+        ];
+        return view('organization_detail', $data);
     }
 
     protected function getDefaultLocation($params)

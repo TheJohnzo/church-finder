@@ -81,3 +81,43 @@ input[readonly], input[disabled] {
 .sort_link_active {
     color: yellow;
 }
+
+/* map css */
+.selected_church_box {
+    color: #ffffff;
+    background-color: #506294 !important;
+    padding: 5px; 
+    border: 1px solid black; 
+    width: 90%; 
+    min-height: 55px; 
+    text-align: center;
+}
+.selected_church_box a {
+    color: #ffffff !important;
+}
+.church_box {
+    color: #000000;
+    background-color: #FFFFFF !important;
+    padding: 5px; 
+    border: 1px solid black; 
+    width: 90%; 
+    min-height: 55px; 
+    text-align: center;
+}
+div.detail_box {
+    width: 100%; 
+    padding-top: 15px; 
+    padding-bottom: 15px;
+    text-align: center;
+}
+div.blue, div.blue a {
+    color: #ffffff;
+    background-color: #506294;
+}
+div.blue a {
+    text-decoration: underline;
+}
+div.grey {
+    color: #000000;
+    background-color: #f2f2f2;
+}

@@ -35,6 +35,7 @@ class AddressAdminController extends Controller
         $addr = new \App\ChurchAddress;
         $addr->church_id = $id;
         $addr->save();
+        $addr->updateLatLongFromAddress();
         if ($request->primary) {
             $addr->makePrimary();
         } else {
@@ -78,6 +79,7 @@ class AddressAdminController extends Controller
     public function updateChurchAddress($id, $address_id, Request $request)
     {
         $addr = \App\ChurchAddress::findorfail($address_id);
+        $addr->updateLatLongFromAddress();
         if ($request->primary) {
             $addr->makePrimary();
         } else {

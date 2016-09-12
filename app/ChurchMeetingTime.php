@@ -22,4 +22,12 @@ class ChurchMeetingTime extends Model
         return $this->hasMany('App\ChurchMeetingTimeLanguage');
     }
 
+    /**
+     * Get the address languages for the meeting.
+     */
+    public function address()
+    {
+        return $this->hasOne('App\ChurchAddress', 'id', 'church_address_id');
+    }
+
 }

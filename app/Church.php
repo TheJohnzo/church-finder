@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class Church extends Model
 {
@@ -55,11 +54,10 @@ class Church extends Model
         return $this->belongsToMany('App\Tag');
     }
 
-
     /**
      * @param $latitude  Lat coordinate of search value
      * @param $longitude  Lon coordinate of search value
-     * @param $distance  Max distance allowed in Meters, default 25
+     * @param $distance  Max distance allowed in Meters, default 20
      */
     public static function findChurchesNearLatLon($latitude, $longitude, $distance = 20)
     {
@@ -76,18 +74,10 @@ class Church extends Model
         return $locations;
     }
 
-    public static function updateLatLongFromAddress($id)
+    public static function updateLatLongFromAddressByChurchId($id)
     {
         foreach (\App\ChurchAddress::where('church_id', $id)->cursor() as $a) {
-
-            $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $a->id)
-                ->where('language', 'en')
-                ->first();
-
-            $location = Mapper::location($addressLabel['addr']);
-            $a->latitude = $location->getLatitude();
-            $a->longitude = $location->getLongitude();
-            $a->save();
+            $a->updateLatLongFromAddress();
         }
     }
 
@@ -95,7 +85,7 @@ class Church extends Model
     {
         $churches = self::all();
         foreach ($churches as $church) {
-            self::updateLatLongFromAddress($church->id);
+            self::updateLatLongFromAddressByChurchId($church->id);
         }
     }
 
