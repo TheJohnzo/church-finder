@@ -10,10 +10,10 @@ return [
 
     'within' => '?within',
     'of' => '?of',
-    'search' => '?search',
+    'search' => '検索',
     'see-all' => '?See All',
     'show' => '?Show on map',
-    'distance' => 'Distance',
+    'distance' => '距離',
     'see-more' => '?more info',
     'service-times' => '?Service Times',
     'related-orgs'     => '?Related Orgs',
@@ -25,6 +25,10 @@ return [
     'day_4' => '木曜日',
     'day_5' => '金曜日',
     'day_6' => '土曜日',
-    'countries-in' => 'に積極的に国'
+    'countries-in' => 'に積極的に国',
+    'with-map' => '?Search with map',
+    'without-map' => '?Search without map',
+    'displaying-churches' => ':NUMBER教会の表示',
+    'city' => '都市'
 
 ];

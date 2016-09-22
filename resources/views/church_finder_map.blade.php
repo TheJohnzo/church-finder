@@ -29,24 +29,27 @@
 
     <div align="center" style="width: 100%; padding-top: 15px; padding-bottom: 25px;">
 
+        <div style="float:right;"><a href="{{ URL::to('search') . '?lang=' . $lang }}">@lang('messages.without-map')</a></div>
+
         <div>
         <form method="get" action="{{ URL::to('map') }}">
             <em style="font-size: 12px;">&nbsp; @lang('messages.within') &nbsp;</em>
             {{ Form::select('distance', [5=>5, 10=>10, 20=>20, 40=>40, 100=>100], $distance) }}
             <em style="font-size: 12px;">&nbsp; @lang('messages.of') &nbsp;</em>
             <input name="lang" type="hidden" value ="{{ $lang }}"/>
-            <input name="search" type="text" value ="{{ $search }}"/> 
+            <input name="search" type="text" value ="{{ $search }}" placeholder="@lang('messages.city')"/> 
             <input type="submit" value="@lang('messages.search')" />
             &nbsp;<a href="{{ URL::to('map') . '?lang=' . $lang }}">@lang('messages.see-all')</a>
         </form>
         </div>
 
-        <h3>{{ $msg }}</h3>
+        <h3>Displaying {{ count($locations) }} churches</h3>
 
         <div style="padding-top: 10px; margin-top: 0px; height: 400px; width: 29%; float: left; overflow: scroll; background-color: #0F1F41">
             @forelse ($locations as $key => $location)
                 <a name="church_{{ $key }}"></a>
                 <div class="church_box" id="mapbox_{!! $key !!}">
+                    <div class="record-number">#{{ $key+1 }}</div>
                     <h4>{{ $location->name }}</h4>
                     <h5>{{ $location->addr }}</h5>
                     <a href="#church_{{ $key }}" 
@@ -58,9 +61,9 @@
                     @endif
                 </div>
             @empty
-                <p style="background-color: #FFFFFF; padding: 5px; border: 1px solid black; width: 90%; height: 55px; text-align: left;">
-                    No Churches found...
-                </p>
+                <div class="church_box">
+                    <h4>No Churches found...</h4>
+                </div>
             @endforelse
         </div>
     

@@ -104,6 +104,16 @@ input[readonly], input[disabled] {
     min-height: 55px; 
     text-align: center;
 }
+.left_box {
+    width: 50%;
+    float: left;
+    min-height: 180px;
+}
+.right_box {
+    width: 50%;
+    float: right;
+    min-height: 180px;
+}
 div.detail_box {
     width: 100%; 
     padding-top: 15px; 
@@ -120,4 +130,13 @@ div.blue a {
 div.grey {
     color: #000000;
     background-color: #f2f2f2;
+}
+.record-number {
+    color: gray;
+    font-style: italic;
+    float: left;
+    font-size: 11px;
+}
+.selected_church_box div.record-number {
+    color: white;
 }

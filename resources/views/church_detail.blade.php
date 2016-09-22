@@ -10,21 +10,21 @@
               <!-- <li><a href="#top">{!! FA::icon('arrow-circle-up') !!} Top</a></li> 
                   Consider hidding content sections until menu items clicked for easier viewing in iframe.  
                   -->
+              @if (count($church->meetingtime()->get()) > 0)
               <li>
-                    @if (count($church->meetingtime()->get()) > 0)
-                      <a href="#servicetimes">{!! FA::icon('calendar') !!} Service Times {!! FA::icon('arrow-circle-down') !!}</a>
-                    @endif
+                  <a href="#servicetimes">{!! FA::icon('calendar') !!} Service Times {!! FA::icon('arrow-circle-down') !!}</a>
               </li>
+              @endif
+              @if (count($church->organization()->get()) > 0)
               <li>
-                    @if (count($church->organization()->get()) > 0)
-                    <a href="#orgs">{!! FA::icon('group') !!} Related Orgs {!! FA::icon('arrow-circle-down') !!}</a>
-                    @endif
+                <a href="#orgs">{!! FA::icon('group') !!} Related Orgs {!! FA::icon('arrow-circle-down') !!}</a>
               </li>
+              @endif
+              @if (count($church->tag()->get()) > 0)
               <li>
-                    @if (count($church->tag()->get()) > 0)
-                    <a href="#tags">{!! FA::icon('tags') !!} Tags {!! FA::icon('arrow-circle-down') !!}</a>
-                    @endif
+                <a href="#tags">{!! FA::icon('tags') !!} Tags {!! FA::icon('arrow-circle-down') !!}</a>
               </li>
+              @endif
             </ul>
         </div>
     </div>
@@ -36,7 +36,6 @@
              @endif
             @endforeach
         </h2>
-        {{-- TODO should be showing the primary address here --}}
         <h3>@foreach ($church->address()->where('primary', 1)->first()->label as $label)
              @if ($label->language == $lang)
                 {{ $label->addr }}
@@ -91,7 +90,7 @@
         @if (count($church->organization()->get()) > 0)
             <h3>@lang('messages.related-orgs')</h3>
             @foreach ($church->organization()->get() as $org)
-                <h4>{!! FA::icon('link') !!} <a href="{{ URL::to('/org/' . $org->id) }}">{{ $org->name }}</a></h4>
+                <h4>{!! FA::icon('link') !!} <a href="{{ URL::to('/org/' . $org->id) }}?lang={{ $lang }}">{{ $org->name }}</a></h4>
             @endforeach
         @endif
     </div>
@@ -102,13 +101,12 @@
             @foreach ($church->tag as $tag)
                 @foreach ($tag->translation->all() as $t)
                     @if ($t->language == $lang)
-                        #{{ $t->tag }}, 
+                        <a href="{{ URL::to('search') . '?lang=' . $lang . '&tags[]=' . $t->tag_id }}">#{{ $t->tag }}</a>, 
                     @endif
                 @endforeach
             @endforeach
             </h4>
             <h1>{!! FA::icon('tags') !!}</h1>
-            {{-- TODO tags should be links --}}
         @endif
     </div>
     <div class="grey detail_box">&nbsp;</div>

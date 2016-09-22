@@ -65,9 +65,8 @@ class ChurchFinderController extends Controller
                 Mapper::map($location->getLatitude(), $location->getLongitude(), $params);
 
                 //find nearby churches, default 20km
-                $locations = \App\Church::findChurchesNearLatLon($location->getLatitude(), $location->getLongitude(), $request->input('distance'));
-                $data['msg'] = "Found " . count($locations) . " churches";
-
+                $locations = \App\Church::allChurchesNearLatLon($location->getLatitude(), $location->getLongitude(), $request->input('distance'));
+                $locations = $locations->all();
             } catch (\Exception $e) {
                 $data['msg'] = "Sorry, we couldn't find that. Try another search?";
                 $this->getDefaultLocation($params);
@@ -100,7 +99,7 @@ class ChurchFinderController extends Controller
             $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $address['id'])
                 ->where('language', $lang)
                 ->first();
-            $infoText = view('map_info_window', ['info' => $info, 'l' => $l, 'church_id' => $church_id]);
+            $infoText = view('map_info_window', ['info' => $info, 'l' => $l, 'church_id' => $church_id, 'lang' => $lang]);
             Mapper::informationWindow($address['latitude'], $address['longitude'], $infoText->render());
 
             //TODO better model to avoid adding adhoc params?
@@ -111,7 +110,65 @@ class ChurchFinderController extends Controller
         }
         $data['locations'] = array_values($locations);
 
-        return view('church_finder', $data);
+        return view('church_finder_map', $data);
+    }
+
+    public function search(Request $request)
+    {
+        //TODO searchable church list based on location, tags, etc.
+        $lang = ($request->lang) ? $request->lang : 'ja';
+        \App::setLocale($lang);
+        $tags = \App\TagTranslation::where('language', $lang)
+            ->orderBy('tag')
+            ->get();
+
+        if (is_array($request->tags) && count($request->tags) > 0 && strlen($request->search) > 0) {
+            $location = Mapper::location($request->input('search'));
+            $locations = \App\Church::allChurchesNearLatLonTags($location->getLatitude(), $location->getLongitude(), $request->distance, $request->tags);
+        } elseif (is_array($request->tags) && count($request->tags) > 0) {
+            $locations = \App\Church::allChurchesByTags($request->tags);
+        } elseif (strlen($request->search) > 0) {
+            $location = Mapper::location($request->input('search'));
+            $locations = \App\Church::allChurchesNearLatLon($location->getLatitude(), $location->getLongitude(), $request->distance);
+        } else {
+            $locations = \App\Church::all();
+        }
+        $locations = $locations->all();
+
+        foreach ($locations as $key => &$l) {
+
+            $church_id = (isset($l->church_id)) ? $l->church_id : $l->id;
+            $l->church_id = $church_id;//standardize for easier view
+            $info = \App\ChurchInfo::where('church_id', $church_id)
+                ->where('language', $lang)
+                ->first();
+
+            $address = \App\ChurchAddress::where('church_id', $church_id)
+                ->where('primary', 1)
+                ->first();
+            if (!$address) {
+                unset($locations[$key]);
+                continue;//if no address, skip ahead
+            }
+            $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $address['id'])
+                ->where('language', $lang)
+                ->first();
+
+            //TODO better model to avoid adding adhoc params?
+            $l->name = $info['name'];
+            $l->addr = $addressLabel['addr'];
+        }
+
+        $data = [
+            'locations' => array_values($locations),
+            'languages' => \App\Language::allIndexByCode(),
+            'lang' => $lang,
+            'tag_translations' => $tags,
+            'search' => $request->input('search'), 
+            'distance' => $request->input('distance', 20),
+            'tags' => $request->input('tags'),
+        ];
+        return view('church_finder_search', $data);
     }
 
     public function churchDetail($id, Request $request)

@@ -16,6 +16,7 @@ Route::get('/home', 'HomeController@index');
 
 //Mapping Piece
 Route::get('/map', 'ChurchFinderController@index');
+Route::get('/search', 'ChurchFinderController@search');
 Route::get('/church/{id}', 'ChurchFinderController@churchDetail');
 Route::get('/org/{id}', 'ChurchFinderController@organizationDetail');
 Route::get('/test', 'ChurchFinderController@test');

@@ -47,7 +47,7 @@ class Church extends Model
     }
 
     /**
-     * Get the organizations for the church.
+     * Get the tags for the church.
      */
     public function tag()
     {
@@ -59,20 +59,70 @@ class Church extends Model
      * @param $longitude  Lon coordinate of search value
      * @param $distance  Max distance allowed in Meters, default 20
      */
-    public static function findChurchesNearLatLon($latitude, $longitude, $distance = 20)
+    public static function allChurchesNearLatLonRaw($latitude, $longitude, $distance = 20)
     {
         //TODO how will this handle multiple addresses???
         $q = "
-        SELECT * FROM (
+        SELECT church_id, distance FROM (
             SELECT c.*,(((acos(sin(( :lat *pi()/180)) * sin((`latitude`*pi()/180))+cos(( :lat2 *pi()/180)) * 
                     cos((`latitude`*pi()/180)) * cos((( :lon - `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344) as distance
             FROM church_address_view c 
         ) foo
         WHERE distance <= :distance
         ORDER BY distance";
-        $locations = DB::select($q, ['lat' => $latitude, 'lat2' => $latitude, 'lon' => $longitude, 'distance' => $distance]);
+        return DB::select($q, ['lat' => $latitude, 'lat2' => $latitude, 'lon' => $longitude, 'distance' => $distance]);
+    }
+
+    /**
+     * @param $latitude  Lat coordinate of search value
+     * @param $longitude  Lon coordinate of search value
+     * @param $distance  Max distance allowed in Meters, default 20
+     */
+    public static function allChurchesNearLatLon($latitude, $longitude, $distance = 20)
+    {
+        $locations = self::allChurchesNearLatLonRaw($latitude, $longitude, $distance);
+        foreach ($locations as $l) {
+            $ids[] = $l->church_id;
+            $distances[$l->church_id] = $l->distance;
+        }
+        $churches = self::whereIn('id', $ids)->get();
+        foreach ($churches as &$c) {
+            $c->distance = $distances[$c->id];//not great to add custom param, but needed for search & display.
+        }
+        return $churches->sortBy('distance');
+    }
+
+    /**
+     * @param $latitude  Lat coordinate of search value
+     * @param $longitude  Lon coordinate of search value
+     * @param $distance  Max distance allowed in Meters, default 20
+     */
+    public static function allChurchesNearLatLonTags($latitude, $longitude, $distance = 20, $tags)
+    {
+        $locations = self::allChurchesNearLatLonRaw($latitude, $longitude, $distance);
+        foreach ($locations as $l) {
+            $ids[] = $l->church_id;
+            $distances[$l->church_id] = $l->distance;
+        }
+        $churches = self::whereIn('id', $ids)
+            ->whereRaw('id IN (SELECT church_id FROM church_tag WHERE tag_id IN (' . implode(',', $tags) . '))')
+            ->get();
+        foreach ($churches as &$c) {
+            $c->distance = $distances[$c->id];//not great to add custom param, but needed for search & display.
+        }
+        return $churches->sortBy('distance');
+    }
+
+    /**
+     * @param $tags array of tag_ids to filter by
+     */
+    public static function allChurchesByTags($tags)
+    {
+        $locations = self::whereRaw('id IN (SELECT church_id FROM church_tag WHERE tag_id IN (' . implode(',', $tags) . '))')->get();
+        //TODO Sort by churches with the most matched tags out of availble tags
         return $locations;
     }
+
 
     public static function updateLatLongFromAddressByChurchId($id)
     {

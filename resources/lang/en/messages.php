@@ -25,6 +25,9 @@ return [
     'day_4' => 'Thursday',
     'day_5' => 'Friday',
     'day_6' => 'Saturday',
-    'countries-in' => 'Countries Active In'
-
+    'countries-in' => 'Countries Active In',
+    'with-map' => 'Search with map',
+    'without-map' => 'Search without map',
+    'displaying-churches' => 'Displaying :NUMBER church|Displaying :NUMBER churches',
+    'city' => 'City or Town'
 ];
