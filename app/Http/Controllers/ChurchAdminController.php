@@ -144,7 +144,7 @@ class ChurchAdminController extends Controller
     }
 
     /**
-     * Post save logic used by both isnert and update
+     * Post save logic used by both insert and update
      */
     protected function postSave($id, $languages, $request)
     {

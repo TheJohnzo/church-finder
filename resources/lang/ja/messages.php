@@ -29,6 +29,7 @@ return [
     'with-map' => '?Search with map',
     'without-map' => '?Search without map',
     'displaying-churches' => ':NUMBER教会の表示',
-    'city' => '都市'
+    'city' => '都市',
+    'tags' => 'タグ',
 
 ];

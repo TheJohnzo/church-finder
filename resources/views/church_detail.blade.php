@@ -12,17 +12,17 @@
                   -->
               @if (count($church->meetingtime()->get()) > 0)
               <li>
-                  <a href="#servicetimes">{!! FA::icon('calendar') !!} Service Times {!! FA::icon('arrow-circle-down') !!}</a>
+                  <a href="#servicetimes">{!! FA::icon('calendar') !!} @lang('messages.service-times') {!! FA::icon('arrow-circle-down') !!}</a>
               </li>
               @endif
               @if (count($church->organization()->get()) > 0)
               <li>
-                <a href="#orgs">{!! FA::icon('group') !!} Related Orgs {!! FA::icon('arrow-circle-down') !!}</a>
+                <a href="#orgs">{!! FA::icon('group') !!} @lang('messages.related-orgs') {!! FA::icon('arrow-circle-down') !!}</a>
               </li>
               @endif
               @if (count($church->tag()->get()) > 0)
               <li>
-                <a href="#tags">{!! FA::icon('tags') !!} Tags {!! FA::icon('arrow-circle-down') !!}</a>
+                <a href="#tags">{!! FA::icon('tags') !!} @lang('messages.tags') {!! FA::icon('arrow-circle-down') !!}</a>
               </li>
               @endif
             </ul>

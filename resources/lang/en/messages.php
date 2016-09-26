@@ -29,5 +29,6 @@ return [
     'with-map' => 'Search with map',
     'without-map' => 'Search without map',
     'displaying-churches' => 'Displaying :NUMBER church|Displaying :NUMBER churches',
-    'city' => 'City or Town'
+    'city' => 'City or Town',
+    'tags' => 'Tags',
 ];

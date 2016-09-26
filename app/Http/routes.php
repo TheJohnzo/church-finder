@@ -31,6 +31,7 @@ Route::post('/admin/church/edit/{id}', 'ChurchAdminController@updateChurch');
 
 Route::get('/admin/church/{id}/address', 'AddressAdminController@editChurchAddress');
 Route::post('/admin/church/{id}/address/{address_id}', 'AddressAdminController@updateChurchAddress')->where('address_id', '[0-9]+');
+Route::get('/admin/church/{id}/address/{address_id}', 'AddressAdminController@editChurchAddressSingle')->where('address_id', '[0-9]+');
 Route::post('/admin/church/{id}/address/{new}', 'AddressAdminController@insertChurchAddress');
 Route::get('/admin/church/{id}/address/delete/{address_id}', 'AddressAdminController@deleteChurchAddress');
 Route::post('/admin/church/lookupaddress', 'AddressAdminController@lookupAddresses');

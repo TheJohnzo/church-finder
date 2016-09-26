@@ -5,12 +5,17 @@
     function lookupAddress(id)
     {
         if ($('#search_' + id).val() !== '') {
+            $('#search_' + id).removeClass('alert-danger');
             $.ajax({
                 type: "POST",
                 url: '/admin/church/lookupaddress',
                 data: {addr: $('#search_' + id).val(), _token: '{{ csrf_token() }}'},
             }).done(function( data ) {
                 $('#debug').html(data);
+                if (data == 'NOT_FOUND') {
+                    $('#search_' + id).addClass('alert-danger');
+                    alert('No address found, please try again.')
+                }
                 $.each(jQuery.parseJSON(data), function( index, value ) {
                     $('#addr_' + index + '_' + id).val(value);
                     $('#addr_' + index + '_' + id).delay(100).fadeOut().fadeIn('slow');
@@ -37,13 +42,12 @@
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+                        <li>{{ $errors->first('addr_ja') }}</li>
                     </ul>
                 </div>
             @endif
             @foreach ($addresses as $cnt => $addr)
+            @if ((isset($address_id) && $addr->id == $address_id) || !isset($address_id))
             <div class="panel panel-default" style="background-color: #f2f2f2;" id="div_{{ $addr->id }}">
             <form action="{{ URL::to('admin/church/' . $church->id . '/address/') }}/{{ ($addr->id > 0) ? $addr->id : 'new' }}" method="POST">
                 {{ Form::token() }}
@@ -53,7 +57,11 @@
                     </tr><tr>
                         <td class="form_cell_label">&nbsp;</td><td></td>
                     </tr><tr>
-                        <td>Search</td><td class="text form_cell"><input type="text" id="search_{{ $addr->id }}" placeholder="123 Main St..." style="width: 90%" /></td>
+                        <td class="form_cell_label">Search</td><td class="text form_cell"><input type="text" id="search_{{ $addr->id }}" placeholder="123 Main St..." 
+                            @if (count($errors->all()) > 0)
+                                class="alert-danger"
+                            @endif
+                            /></td>
                     </tr><tr>
                         <td>&nbsp;</td><td class="text">{!! FA::icon('hand-o-right') !!}<a href"#" onclick="lookupAddress({{ $addr->id }})">Lookup Addresses</a></td>
                     </tr><tr>
@@ -81,6 +89,7 @@
                 </table>
             </form>
             </div>
+            @endif
             @endforeach
         </div>
     </div>

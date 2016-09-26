@@ -139,27 +139,6 @@ class Church extends Model
         }
     }
 
-    //temp, create stub records for testing
-    public static function insertFromNameAndAddress($name, $address) {
-        $church = self::create();
-
-        $churchAddress = new \App\ChurchAddress;
-        $churchAddress->church_id = $church->id;
-        $churchAddress->save();
-
-        $churchAddressLabel = new \App\ChurchAddressLabel;
-        $churchAddressLabel->church_address_id = $churchAddress->id;
-        $churchAddressLabel->addr = $address;
-        $churchAddressLabel->language = 'en';
-        $churchAddressLabel->save();
-
-        $info = new \App\ChurchInfo;
-        $info->church_id = $church->id;
-        $info->name = $name;
-        $info->language = 'en';
-        $info->save();
-    }
-
     public static function allMissingInfo()
     {
         $q = "
