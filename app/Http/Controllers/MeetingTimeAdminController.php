@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use App\Http\Requests;
 
-class MeetingTimeAdminController extends Controller
+class MeetingTimeAdminController extends AdminController
 {
     public function index($id)
     {

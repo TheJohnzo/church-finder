@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use App\Http\Requests;
 
-class AddressAdminController extends Controller
+class AddressAdminController extends AdminController
 {
     public function editChurchAddress($id)
     {

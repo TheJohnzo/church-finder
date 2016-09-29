@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests;
 
-class OrganizationAdminController extends Controller
+class OrganizationAdminController extends AdminController
 {
     public function index(Request $request)
     {

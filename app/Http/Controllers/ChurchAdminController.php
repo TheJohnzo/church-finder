@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use App\Http\Requests;
 
-class ChurchAdminController extends Controller
+class ChurchAdminController extends AdminController
 {
     public function index(Request $request)
     {
