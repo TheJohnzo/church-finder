@@ -36,14 +36,14 @@
              @endif
             @endforeach
         </h2>
-        <h3>@foreach ($church->address()->where('primary', 1)->first()->label as $label)
+        <div align="center">
+        <h3 class="centered">@foreach ($church->address()->where('primary', 1)->first()->label as $label)
              @if ($label->language == $lang)
                 {{ $label->addr }}
              @endif
             @endforeach
         </h3>
-        <div align="center">
-        <h4 style="width:50%">@foreach ($church->info()->get() as $info)
+        <h4 class="centered">@foreach ($church->info()->get() as $info)
              @if ($info->language == $lang)
                 {{ $info->description }}
              @endif

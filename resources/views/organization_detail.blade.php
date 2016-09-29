@@ -9,13 +9,14 @@
     <div align="center" style="width: 99%; padding-top: 15px; padding-bottom: 25px;">
         <h2>{{ $org->name }}</h2>
         {{-- TODO logo --}}
-        <h4>@foreach ($org->info()->get() as $info)
+        <div align="center">
+        <h4 class="centered">@foreach ($org->info()->get() as $info)
              @if ($info->language == $lang)
                 {{ $info->description }}
              @endif
             @endforeach
         </h4>
-
+        </div>
         @if ($org->national_url)
             <h4><span class="flag-icon flag-icon-jp" 
                     style="background-size: contain;background-position: 50%;background-repeat: no-repeat;height:25px;width:40px;"></span>

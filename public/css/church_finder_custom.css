@@ -83,12 +83,26 @@ input[readonly], input[disabled] {
 }
 
 /* map css */
+.search_results {
+    height: 400px;
+    float: left; 
+    overflow: scroll; 
+    background-color: #13224D;
+}
+.search_results_map {
+    margin-top: 0px;
+    width: 31%; 
+}
+.search_results_no_map {
+    margin-top: 0px; 
+    width: 100%; 
+}
 .selected_church_box {
     color: #ffffff;
     background-color: #506294 !important;
     padding: 5px; 
     border: 1px solid black; 
-    width: 90%; 
+    width: 95%; 
     min-height: 55px; 
     text-align: center;
 }
@@ -100,19 +114,24 @@ input[readonly], input[disabled] {
     background-color: #FFFFFF !important;
     padding: 5px; 
     border: 1px solid black; 
-    width: 90%; 
+    width: 95%; 
     min-height: 55px; 
     text-align: center;
+    margin: 5px;
 }
 .left_box {
-    width: 50%;
+    width: 49%;
     float: left;
     min-height: 180px;
+    margin-right: 2px;
+    margin-bottom: 0px;
 }
 .right_box {
-    width: 50%;
+    width: 49%;
     float: right;
     min-height: 180px;
+    margin-left: 2px;
+    margin-bottom: 0px;
 }
 div.detail_box {
     width: 100%; 
@@ -139,4 +158,9 @@ div.grey {
 }
 .selected_church_box div.record-number {
     color: white;
+}
+.centered {
+    text-align: center;
+    width: 75%;
+    margin-bottom: 15px;
 }

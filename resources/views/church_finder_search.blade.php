@@ -3,7 +3,7 @@
 @section('content')
     <div align="center" style="width: 100%; padding-top: 15px; padding-bottom: 25px;">
 
-        <div style="float:right;"><a href="{{ URL::to('map') . '?lang=' . $lang }}">@lang('messages.with-map')</a></div>
+        <div style="float:right; padding-right: 15px;"><a href="{{ URL::to('map') . '?lang=' . $lang }}">@lang('messages.with-map') {!! FA::icon('hand-o-right') !!}</a></div>
 
         <div>
         <form method="get" action="{{ URL::to('search') }}">
@@ -29,7 +29,7 @@
 
         <h3>@choice('messages.displaying-churches', count($locations) ,['number'=>count($locations)])</h3>
 
-        <div style="padding-top: 10px; margin-top: 0px; height: 400px; width: 100%; float: left; overflow: scroll; background-color: #0F1F41">
+        <div class="search_results search_results_no_map">
             @forelse ($locations as $key => $location)
                 <a name="church_{{ $key }}"></a>
                 <div class="church_box {{ ($key % 2 == 0) ? 'left_box' : 'right_box' }}" id="mapbox_{!! $key !!}">

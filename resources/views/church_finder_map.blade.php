@@ -29,7 +29,7 @@
 
     <div align="center" style="width: 100%; padding-top: 15px; padding-bottom: 25px;">
 
-        <div style="float:right;"><a href="{{ URL::to('search') . '?lang=' . $lang }}">@lang('messages.without-map')</a></div>
+        <div style="float:right; padding-right: 15px;"><a href="{{ URL::to('search') . '?lang=' . $lang }}">@lang('messages.without-map') {!! FA::icon('hand-o-right') !!}</a></div>
 
         <div>
         <form method="get" action="{{ URL::to('map') }}">
@@ -45,7 +45,7 @@
 
         <h3>Displaying {{ count($locations) }} churches</h3>
 
-        <div style="padding-top: 10px; margin-top: 0px; height: 400px; width: 29%; float: left; overflow: scroll; background-color: #0F1F41">
+        <div class="search_results search_results_map">
             @forelse ($locations as $key => $location)
                 <a name="church_{{ $key }}"></a>
                 <div class="church_box" id="mapbox_{!! $key !!}">
@@ -67,7 +67,7 @@
             @endforelse
         </div>
     
-        <div style="height: 400px; width: 68%; background-color: #000000; float: right;">
+        <div style="height: 400px; width: 69%; background-color: #000000; float: right;">
         {!! Mapper::render() !!}
         </div>
 
