@@ -54,13 +54,20 @@
                             <td>{{ $church['contact_email'] }}</td>
                             <td>{{ $church['created_at'] }}</td>
                             <td>{{ $church['updated_at'] }}</td>
-                            <td style="font-size: 18px;"><span style="color: red;">
-                                {!! (isset($missing_info[$church['id']])) ? FA::icon('info-circle') : '' !!}
-                                {!! (isset($missing_address[$church['id']])) ? FA::icon('map-marker') : '' !!}
-                            </span><span style="color: orange;">
-                                {!! (isset($missing_meeting_time[$church['id']])) ? FA::icon('clock-o') : '' !!}
-                                {!! (isset($missing_contact[$church['id']])) ? FA::icon('phone') : '' !!}
-                            </span></td>
+                            <td style="font-size: 18px;">
+                                <a href="{{ url('/admin/church') }}/{{ $church['id'] }}" class="red_icon">
+                                    {!! (isset($missing_info[$church['id']])) ? FA::icon('info-circle') : '' !!}
+                                </a>
+                                <a href="{{ url('/admin/church') }}/{{ $church['id'] }}/address" class="red_icon">
+                                    {!! (isset($missing_address[$church['id']])) ? FA::icon('map-marker') : '' !!}
+                                </a>
+                                <a href="{{ url('/admin/church') }}/{{ $church['id'] }}/meetingtime" class="orange_icon">
+                                    {!! (isset($missing_meeting_time[$church['id']])) ? FA::icon('clock-o') : '' !!}
+                                </a>
+                                <a href="{{ url('/admin/church/edit') }}/{{ $church['id'] }}" class="orange_icon">
+                                    {!! (isset($missing_contact[$church['id']])) ? FA::icon('phone') : '' !!}
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <tr>

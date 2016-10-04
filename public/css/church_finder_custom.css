@@ -164,3 +164,9 @@ div.grey {
     width: 75%;
     margin-bottom: 15px;
 }
+a.red_icon {
+    color: red;
+}
+a.orange_icon {
+    color: orange;
+}
