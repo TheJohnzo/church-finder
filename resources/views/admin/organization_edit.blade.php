@@ -22,15 +22,17 @@
                             <td class="form_cell_label">&nbsp;</td><td class="text form_cell"></td>
                         </tr><tr>
                             <td class="form_cell_label">ID</td><td class="text form_cell">{{ $organization->id }}</td>
-                        </tr><tr>
-                            <td class="form_cell_label">Name</td><td  class="text form_cell">
-                                <input type="text" id="name" name="name" value="{{ $organization->name }}" />
-                            </td>
                         </tr>
                         @foreach ($languages as $lang)
                         <tr>
-                            <td class="form_cell_label">Description <span class="flag-icon flag-icon-{{ $lang['primary_country'] }}" 
+                            <td class="form_cell_label">Name <span class="flag-icon flag-icon-{{ $lang['primary_country'] }}" 
                             style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"></span></td>
+                            <td  class="text form_cell">
+                                <input type="text" id="name" name="name_{{ $lang['code'] }}" value="{{ @$infos[$lang['code']]->name }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form_cell_label">Description </td>
                             <td class="text form_cell">
                             <textarea name="description_{{ $lang['code'] }}">{{ @$infos[$lang['code']]->description }}</textarea>
                             </td>

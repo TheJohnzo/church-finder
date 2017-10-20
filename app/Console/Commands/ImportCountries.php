@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use DB;
+use App\Country;
+use App\OrganizationCountry;
 
 class ImportCountries extends Command
 {
@@ -44,7 +46,7 @@ class ImportCountries extends Command
         $data = array();
         if (($handle = fopen($filename, 'r')) !== false)
         {
-            while (($row = fgetcsv($handle, 1000, ',')) !== false)
+            while (($row = fgetcsv($handle, 1500, ',')) !== false)
             {
                 if (!$header)
                     $header = $row;
@@ -53,7 +55,8 @@ class ImportCountries extends Command
             }
             fclose($handle);
         }
-        DB::table('country')->truncate();
+        OrganizationCountry::getQuery()->delete();
+        Country::getQuery()->delete();
         foreach ($data as $d)
         {
             if ($d['official_name_en'] != '' && $d['ISO3166-1-Alpha-2'] != '') {

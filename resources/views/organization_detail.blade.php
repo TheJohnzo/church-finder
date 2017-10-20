@@ -7,7 +7,7 @@
         </button>
     </div>
     <div align="center" style="width: 99%; padding-top: 15px; padding-bottom: 25px;">
-        <h2>{{ $org->name }}</h2>
+        <h2>{{ $org->info()->where('language', $lang)->first()->name }}</h2>
         {{-- TODO logo --}}
         <div align="center">
         <h4 class="centered">@foreach ($org->info()->get() as $info)

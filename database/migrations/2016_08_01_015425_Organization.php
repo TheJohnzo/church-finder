@@ -14,7 +14,6 @@ class Organization extends Migration
     {
         Schema::create('organization', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
             $table->integer('size_in_churches');
             $table->string('global_url');
             $table->string('national_url');

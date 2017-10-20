@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ImportCountries::class,
+        Commands\ImportExcel::class,
     ];
 
     /**

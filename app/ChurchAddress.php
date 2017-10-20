@@ -85,13 +85,45 @@ class ChurchAddress extends Model
     public function updateLatLongFromAddress()
     {
         $addressLabel = \App\ChurchAddressLabel::where('church_address_id', $this->id)
-            ->where('language', 'en')
+            ->where('language', 'ja')# FIXME no defaults
             ->first();
 
         $location = Mapper::location($addressLabel['addr']);
         $this->latitude = $location->getLatitude();
         $this->longitude = $location->getLongitude();
         $this->save();
+        
+        # TODO only save when called from import
+        $formattedAddresses = $this->lookupAddresses($addressLabel['addr']);
+        foreach ($formattedAddresses as $language => $fadd) {
+            $updatedAddressLabel = \App\ChurchAddressLabel::where('church_address_id', $addressLabel->church_address_id)->where('language', $language)->first();
+            if ($updatedAddressLabel === NULL) {
+                $updatedAddressLabel = new \App\ChurchAddressLabel;
+                $updatedAddressLabel->language = $language;
+                $updatedAddressLabel->church_address_id = $addressLabel->church_address_id;
+            }
+            $updatedAddressLabel->addr = $fadd;
+            $updatedAddressLabel->save();
+        }
     }
 
+    public static function lookupAddresses($addr)
+    {
+        $languages = \App\Language::all();
+        $return = [];
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={latlon}&key=" . config('googlmapper.key') . "&language={lang}";
+        try {
+            $location = Mapper::location($addr);
+        } catch (\Exception $e) {
+            return 'NOT_FOUND: ' . $e->getMessage();
+        }
+        foreach ($languages as $lang) {
+            $url_new = str_replace(['{latlon}', '{lang}'], 
+                [$location->getLatitude() . ',' . $location->getLongitude(), $lang->code],
+                $url);
+            $data = json_decode(file_get_contents($url_new), true);
+            $return[$lang->code] = $data['results'][0]['formatted_address'];
+        }
+        return $return;
+    }
 }

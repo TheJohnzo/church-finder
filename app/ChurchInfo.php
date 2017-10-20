@@ -3,9 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
+use App\Church;
 
 class ChurchInfo extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     * Needs this for bulk data import
+     *
+     * @var array
+     */
+    protected $fillable = ['name'];
+    
     /**
      * The table associated with the model.
      *
@@ -39,6 +49,27 @@ class ChurchInfo extends Model
         
         }
         return $infos;
+    }
+
+    public static function findOrCreateByName($name, $language="ja")
+    {
+        $churchInfo = self::where("name", $name)->where('language', $language)->first();
+        if ($churchInfo !== null) {
+            return $churchInfo;
+        }
+
+        // create church record to get parent ID.  
+        $church = new Church;
+        $church->save();
+
+        // create info record and return it
+        $churchInfo = new self;
+        $churchInfo->name = $name;
+        $churchInfo->language = $language;
+        $churchInfo->church_id = $church->id;
+        $churchInfo->save();
+
+        return $churchInfo;
     }
 
 }

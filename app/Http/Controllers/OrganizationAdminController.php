@@ -10,11 +10,13 @@ class OrganizationAdminController extends AdminController
 {
     public function index(Request $request)
     {
-        $organizations = \App\Organization::select('*');
+        $organizations = \App\Organization::select('*')            
+            ->join('organization_info', 'organization.id', 'organization_info.organization_id')
+            ->where('language', 'ja');//default only filter by language #FIXME only english during dev;
 
         if ($request->search) {
             $organizations->where(function ($q) use ($request) {
-                $q->whereRaw('LOWER(name) LIKE \'%' . strtolower($request->search) . '%\'');
+                $q->whereRaw('LOWER(organization_info.name) LIKE \'%' . strtolower($request->search) . '%\'');
                 $q->orWhereRaw('LOWER(national_url) LIKE \'%' . strtolower($request->search) . '%\'');
                 $q->orWhereRaw('LOWER(global_url) LIKE \'%' . strtolower($request->search) . '%\'');
             });
@@ -33,6 +35,9 @@ class OrganizationAdminController extends AdminController
         return view('admin/organization', $data);
     }
 
+/**
+ * TODO fix organization are to store "name" in Info table
+ */
     public function newOrganization()
     {
         $data = [
@@ -74,12 +79,12 @@ class OrganizationAdminController extends AdminController
     protected function postSave($organization, $fail_redirect, $request)
     {
         $rules = array(
-            'name'          => 'required',
             'national_url'  => 'url',
             'global_url'    => 'url',
         );
         $languages = \App\Language::allIndexByCode();
         foreach ($languages as $lang) {
+            $rules['name_' . $lang['code']] = 'required';
             $rules['description_' . $lang['code']] = 'required';
         }
         $validator = \Validator::make($request->all(), $rules);
@@ -88,7 +93,6 @@ class OrganizationAdminController extends AdminController
                 ->withInput()
                 ->withErrors($validator);
         } else {
-            $organization->name = $request->name;
             $organization->size_in_churches = $request->size_in_churches;
             $organization->national_url = $request->national_url;
             $organization->global_url = $request->global_url;
@@ -105,6 +109,8 @@ class OrganizationAdminController extends AdminController
                 }
                 $descField = 'description_' . $lang['code'];
                 $info->description = $request->$descField;
+                $nameField = 'name_' . $lang['code'];
+                $info->name = $request->$nameField;
                 $info->save();
             }
 

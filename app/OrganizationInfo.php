@@ -28,5 +28,25 @@ class OrganizationInfo extends Model
         return $infos;
     }
 
+    public static function findOrCreateByName($name, $language="ja")
+    {
+        $orgInfo = self::where("name", $name)->where('language', $language)->first();
+        if ($orgInfo !== null) {
+            return $orgInfo;
+        }
+
+        // create church record to get parent ID.  
+        $org = new Organization;
+        $org->save();
+
+        // create info record and return it
+        $orgInfo = new self;
+        $orgInfo->organization_id = $org->id;
+        $orgInfo->name = $name;
+        $orgInfo->language = $language;
+        $orgInfo->save();
+
+        return $orgInfo;
+    }
 
 }

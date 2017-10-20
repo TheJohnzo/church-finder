@@ -32,8 +32,10 @@ class Organization extends Model
     public static function allIndexById()
     {
         $return = [];
-        $orgs = self::all();
-        foreach ($orgs as $org) {
+        $orgs = self::select('organization.*', 'organization_info.name')
+            ->join('organization_info', 'organization.id', 'organization_info.organization_id')
+            ->where('language', 'ja');
+        foreach ($orgs->get() as $org) {
             $return[$org->id] = $org->name;
         }
         return $return;

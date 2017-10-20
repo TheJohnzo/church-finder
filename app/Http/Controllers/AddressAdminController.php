@@ -69,23 +69,12 @@ class AddressAdminController extends AdminController
         return $this->postSave($id, $addr, $request);
     }
 
+    /**
+     * Get google friendly address from latlon
+     */
     public function lookupAddresses(Request $request)
     {
-        $languages = \App\Language::all();
-        $return = [];
-        $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={latlon}&key=" . config('googlmapper.key') . "&language={lang}";
-        try {
-            $location = Mapper::location($request->input('addr'));
-        } catch (\Exception $e) {
-            return 'NOT_FOUND';
-        }
-        foreach ($languages as $lang) {
-            $url_new = str_replace(['{latlon}', '{lang}'], 
-                [$location->getLatitude() . ',' . $location->getLongitude(), $lang->code],
-                $url);
-            $data = json_decode(file_get_contents($url_new), true);
-            $return[$lang->code] = $data['results'][0]['formatted_address'];
-        }
+        $return = \App\ChurchAddress::lookupAddresses($request->input('addr'));
         return json_encode($return);
     }
 

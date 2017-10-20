@@ -20,7 +20,8 @@
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "cornford/googlmapper": "2.*",
         "torann/geoip": "0.2.*@dev",
-        "laravelcollective/html": "5.3.*"
+        "laravelcollective/html": "5.3.*",
+        "maatwebsite/excel": "~2.1.0"
     },
     "autoload": {
         "classmap": [

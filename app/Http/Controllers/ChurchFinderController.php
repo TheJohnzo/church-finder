@@ -50,7 +50,7 @@ class ChurchFinderController extends Controller
         $lang = ($request->lang) ? $request->lang : 'ja';
         \App::setLocale($lang);
         config(['googlmapper.language' => $lang]);
-        $params = ['zoom' => 14, 'type' => 'HYBRID', 'marker' => false];
+        $params = ['zoom' => 16, 'type' => 'HYBRID', 'marker' => false];
         $data = [
             'search' => $request->input('search'), 
             'msg' => null, 

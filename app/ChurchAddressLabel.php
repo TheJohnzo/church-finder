@@ -30,4 +30,35 @@ class ChurchAddressLabel extends Model
         }
         return $data;
     }
+    
+    public static function findOrCreateByAddr($addr, $language, $church_id)
+    {
+        $churchAddress = ChurchAddress::where('church_id', $church_id)->where('primary', 1)->first();
+        if ($churchAddress !== null) {
+            $addressLabel = self::where("addr", $addr)
+                ->where('language', $language)
+                ->where('church_address_id', $churchAddress->id)
+                ->first();
+            if ($addressLabel !== null) {
+                return $addressLabel;
+            } else {
+                echo "not found";
+            }
+        }
+
+        // create church record to get parent ID.  
+        $churchAddress = new ChurchAddress;
+        $churchAddress->church_id = $church_id;
+        $churchAddress->primary = 1;
+        $churchAddress->save();
+
+        // create info record and return it
+        $addressLabel = new ChurchAddressLabel;
+        $addressLabel->addr = $addr;
+        $addressLabel->language = $language;
+        $addressLabel->church_address_id = $churchAddress->id; 
+        $addressLabel->save();
+
+        return $addressLabel;
+    }
 }

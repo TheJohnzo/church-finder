@@ -13,7 +13,7 @@ class ChurchAdminController extends AdminController
     {
         $churches = \App\Church::select('church.*', 'church_info.name')
             ->join('church_info', 'church.id', 'church_info.church_id')
-            ->where('language', 'en');//default only filter by language #FIXME only english during dev
+            ->where('language', 'ja');//default only filter by language #FIXME only english during dev
         if ($request->search) {
             $churches->where(function ($q) use ($request) {
                 $q->whereRaw('LOWER(name) LIKE \'%' . strtolower($request->search) . '%\'');

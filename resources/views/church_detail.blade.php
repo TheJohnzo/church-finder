@@ -90,7 +90,7 @@
         @if (count($church->organization()->get()) > 0)
             <h3>@lang('messages.related-orgs')</h3>
             @foreach ($church->organization()->get() as $org)
-                <h4>{!! FA::icon('link') !!} <a href="{{ URL::to('/org/' . $org->id) }}?lang={{ $lang }}">{{ $org->name }}</a></h4>
+                <h4>{!! FA::icon('link') !!} <a href="{{ URL::to('/org/' . $org->id) }}?lang={{ $lang }}">{{ $org->info()->where('language', $lang)->first()->name }}</a></h4>
             @endforeach
         @endif
     </div>

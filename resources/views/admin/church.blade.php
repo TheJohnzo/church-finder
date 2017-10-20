@@ -55,7 +55,7 @@
                             <td>{{ $church['created_at'] }}</td>
                             <td>{{ $church['updated_at'] }}</td>
                             <td style="font-size: 18px;">
-                                <a href="{{ url('/admin/church') }}/{{ $church['id'] }}" class="red_icon">
+                                <a href="{{ url('/admin/church/edit') }}/{{ $church['id'] }}" class="red_icon">
                                     {!! (isset($missing_info[$church['id']])) ? FA::icon('info-circle') : '' !!}
                                 </a>
                                 <a href="{{ url('/admin/church') }}/{{ $church['id'] }}/address" class="red_icon">
