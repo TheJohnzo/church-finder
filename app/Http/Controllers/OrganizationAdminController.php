@@ -26,6 +26,7 @@ class OrganizationAdminController extends AdminController
         }
         $data = [
             'organizations' => $organizations->paginate(20),
+            'org_count' => $organizations->count(),
             'msg' => session('message'),
             //for data grid
             'sort' => $request->sort,

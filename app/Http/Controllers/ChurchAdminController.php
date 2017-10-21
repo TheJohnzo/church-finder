@@ -27,6 +27,7 @@ class ChurchAdminController extends AdminController
         }
         $data = [
             'churches' => $churches->paginate(20),
+            'church_count' => $churches->count(),
             'msg' => session('message'),
             'sizes' => \App\ChurchSize::all(),
             'missing_info' => \App\Church::allMissingInfo(),

@@ -6,7 +6,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div align="center"><h3>{!! $msg !!}</h3></div>
             <div class="panel panel-default">
-                <div class="panel-heading">Church Admin - {{ $churches->count() }} records found</div>
+                <div class="panel-heading">Church Admin - {{ $church_count }} records found</div>
                 <div class="panel-body">
                     <div style="width: 100%; padding: 10px; background-color: #f2f2f2;" align="center">
                         <form action="/{{ Request::path() }}" method="GET">
