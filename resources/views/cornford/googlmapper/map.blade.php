@@ -1,4 +1,4 @@
-<div id="map-canvas-{!! $id !!}" style="height: 100%; margin: 0; padding: 0;"></div>
+<div id="map-canvas-{!! $id !!}" style="width: 100%; height: 100%; margin: 0; padding: 0; position: relative; overflow: hidden;"></div>
 
 <script type="text/javascript">
 
@@ -13,16 +13,25 @@
 			@if ($options['center'])
 				center: position,
 			@endif
+            zoom: {!! $options['zoom'] !!},
 			mapTypeId: google.maps.MapTypeId.{!! $options['type'] !!},
 			disableDefaultUI: @if (!$options['ui']) true @else false @endif,
-			scrollwheel: @if ($options['scrollWheelZoom']) true @else false @endif
+			scrollwheel: @if ($options['scrollWheelZoom']) true @else false @endif,
+            zoomControl: @if ($options['zoomControl']) true @else false @endif,
+            mapTypeControl: @if ($options['mapTypeControl']) true @else false @endif,
+            scaleControl: @if ($options['scaleControl']) true @else false @endif,
+            streetViewControl: @if ($options['streetViewControl']) true @else false @endif,
+            rotateControl: @if ($options['rotateControl']) true @else false @endif,
+            fullscreenControl: @if ($options['fullscreenControl']) true @else false @endif
 		};
 
-        {{-- CUSTOM changing these to global variables for more flexiblity --}}
+		// Custom code, we're using globals so we can reference them elsewhere
 		map_{!! $id !!} = new google.maps.Map(document.getElementById('map-canvas-{!! $id !!}'), mapOptions_{!! $id !!});
 		map_{!! $id !!}.setTilt({!! $options['tilt'] !!});
 
 		var markers = [];
+		var infowindows = [];
+		var shapes = [];
 
 		@foreach ($options['markers'] as $key => $marker)
 			{!! $marker->render($key, $view) !!}
@@ -53,7 +62,17 @@
 			@if (!$options['center'])
 				map_{!! $id !!}.fitBounds(bounds);
 			@endif
+
+			@if ($options['locate'])
+				if (typeof navigator !== 'undefined' && navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(function (position) {
+						map_{!! $id !!}.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+					});
+				}
+			@endif
 		});
+
+        var map = map_{!! $id !!};
 
 		@if (isset($options['eventBeforeLoad']))
 			{!! $options['eventBeforeLoad'] !!}
@@ -79,10 +98,16 @@
 		maps.push({
 			key: {!! $id !!},
 			markers: markers,
-			map: map_{!! $id !!}
+			infowindows: infowindows,
+			map: map_{!! $id !!},
+			shapes: shapes
 		});
 	}
 
-	google.maps.event.addDomListener(window, 'load', initialize_{!! $id !!});
+    @if (!$options['async'])
+
+	    google.maps.event.addDomListener(window, 'load', initialize_{!! $id !!});
+
+    @endif
 
 </script>

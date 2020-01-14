@@ -81,6 +81,11 @@ class Church extends Model
     public static function allChurchesNearLatLon($latitude, $longitude, $distance = 20)
     {
         $locations = self::allChurchesNearLatLonRaw($latitude, $longitude, $distance);
+
+        if (count($locations) == 0) {
+            return [];
+        }
+
         foreach ($locations as $l) {
             $ids[] = $l->church_id;
             $distances[$l->church_id] = $l->distance;

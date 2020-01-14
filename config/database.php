@@ -55,15 +55,16 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
+            'port' => env('DB_PORT', '8889'),
+            'database' => env('DB_DATABASE', 'church-finder-dev'),
             'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'password' => env('DB_PASSWORD', 'forge'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
             'strict' => false,
             'engine' => null,
+            'unix_socket' => env('UNIX_SOCKET', '/Applications/MAMP/tmp/mysql/mysql.sock') /* for local MAMP only */
         ],
 
         'pgsql' => [

@@ -1,27 +1,41 @@
-# Laravel PHP Framework
+## Church Finder Install Guide
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+The Church Finder is a standard Laraval app and uses environment variables to define the connection to a MySQL database.  
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+Checkout the source code from github.com/thejohnzo/church-finder into a folder connected to a webserver.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+You will have to create an empty database with a username and password that can login with full permissions.  
 
-## Official Documentation
+Example values of environment variables:
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+```
+DB_HOST='localhost'
+DB_PORT='8889'
+DB_DATABASE='church-finder-dev'
+DB_USERNAME='sample'
+DB_PASSWORD='sample'
+ADMIN_EMAIL='your@email.com'
+ADMIN_NAME='Your Name'
+```
 
-## Contributing
+Once your MySQL database is setup and your environment variables are configured, run this command from the root of the application folder.  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+`php artisan db:test`
 
-## Security Vulnerabilities
+If it doesn't return `CONNECTION OK`, something is not working correctly.  Check the previous steps and try again.  
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+After the database is connected, run this DB setup command.  This will create all the tables needed for the application to function. 
 
-## License
+`php artisan migrate`
+(reminder, all tables will be empty at this point)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+Next, run this command to create a basic admin user account so that you can log into the application:
+
+`php artisan initialize`
+(this will create a user with an email address and password "pleasechangemelater"  For security you should change this password IMMEDIATELY if you are on a production system.)
+
+
+OPTIONAL
+To import a sample data set, use the provided XLSX file and import via this command:
+
+`php artisan import:xls sample_data_import/church_import.xlsx`

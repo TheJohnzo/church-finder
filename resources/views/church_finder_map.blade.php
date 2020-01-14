@@ -37,7 +37,7 @@
             {{ Form::select('distance', [5=>5, 10=>10, 20=>20, 40=>40, 100=>100], $distance) }}
             <em style="font-size: 12px;">&nbsp; @lang('messages.of') &nbsp;</em>
             <input name="lang" type="hidden" value ="{{ $lang }}"/>
-            <input name="search" type="text" value ="{{ $search }}" placeholder="@lang('messages.city')"/> 
+            <input name="search" type="text" value ="{{ $search }}" placeholder="@lang('messages.city')"/>
             <input type="submit" value="@lang('messages.search')" />
             &nbsp;<a href="{{ URL::to('map') . '?lang=' . $lang }}">@lang('messages.see-all')</a>
         </form>
@@ -52,7 +52,7 @@
                     <div class="record-number">#{{ $key+1 }}</div>
                     <h4>{{ $location->name }}</h4>
                     <h5>{{ $location->addr }}</h5>
-                    <a href="#church_{{ $key }}" 
+                    <a href="#church_{{ $key }}"
                         onclick="infowindow_{!! $key !!}.open(map_0, marker_{!! $key !!});highlightMapBox({!! $key !!});">{!! FA::icon('map') !!}  @lang('messages.show')</a>
                     &nbsp;&nbsp; | &nbsp;&nbsp;
                     <a href="{{ URL::to('/church/' . $location->church_id . '/?lang=' . $lang) }}">{!! FA::icon('info-circle') !!}  @lang('messages.see-more')</a>

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
-use Torann\GeoIP\GeoIPFacade as GeoIP;
+use Mapper;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 
 //https://github.com/bradcornford/Googlmapper
@@ -133,7 +131,10 @@ class ChurchFinderController extends Controller
         } else {
             $locations = \App\Church::all();
         }
-        $locations = $locations->all();
+
+        if (is_object($locations)) {
+            $locations = $locations->all();
+        }
 
         foreach ($locations as $key => &$l) {
 
@@ -198,7 +199,7 @@ class ChurchFinderController extends Controller
 
     protected function getDefaultLocation($params)
     {
-        $location = GeoIP::getLocation('124.140.43.71');//TODO don't hardcode IP in production
-        Mapper::map($location['lat'], $location['lon'], $params); 
+        $location = \GeoIP::getLocation('124.140.43.71');//TODO don't hardcode IP in production
+        Mapper::map($location['lat'], $location['lon'], $params);
     }
 }

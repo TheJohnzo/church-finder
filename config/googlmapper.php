@@ -20,7 +20,7 @@ return array(
     | A Google API key to link Googlmapper to Google's API.
     |
     */
-    'key' => env('GOOGLE_API_KEY', 'AIzaSyAtqWsq5Ai3GYv6dSa6311tZiYKlbYT4mw'),
+    'key' => env('GOOGLE_API_KEY', 'AIzaSyBHObHLveTrjtUEwlDKgeSafADbOgeKwR0'),
 
     /*
     |--------------------------------------------------------------------------
@@ -174,7 +174,7 @@ return array(
         | Display custom images for clusters using icon path. (Link to an image path)
         |
         */
-        'icon' => '//googlemaps.github.io/js-marker-clusterer/images/m',
+        'icon' => '/images/markercluster/m',
 
         /*
         |--------------------------------------------------------------------------
