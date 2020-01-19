@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.3.*",
-        "khill/fontawesomephp" : "1.0.x",
+        "khill/fontawesomephp" : "1.1.5",
         "jgrossi/corcel": "^1.1",
         "components/flag-icon-css": "^2.4",
         "caouecs/laravel-lang": "~3.0"
