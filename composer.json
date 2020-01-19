@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
         "khill/fontawesomephp" : "1.1.5",
         "jgrossi/corcel": "^1.1",
         "components/flag-icon-css": "^2.4",
@@ -20,7 +20,7 @@
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "cornford/googlmapper": "2.*",
         "torann/geoip": "1.0.*",
-        "laravelcollective/html": "5.3.*",
+        "laravelcollective/html": "5.4.*",
         "maatwebsite/excel": "~2.1.0"
     },
     "autoload": {
