@@ -34,6 +34,7 @@ Next, run this command to create a basic admin user account so that you can log 
 `php artisan initialize`
 (this will create a user with an email address and password "pleasechangemelater"  For security you should change this password IMMEDIATELY if you are on a production system.)
 
+TODO insert sample data SQL files from same_data_import/
 
 OPTIONAL
 To import a sample data set, use the provided XLSX file and import via this command:

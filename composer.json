@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.7.*",
         "khill/fontawesomephp" : "1.1.5",
         "jgrossi/corcel": "^1.1",
         "components/flag-icon-css": "^2.4",
@@ -20,8 +20,8 @@
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "cornford/googlmapper": "2.*",
         "torann/geoip": "1.0.*",
-        "laravelcollective/html": "5.4.*",
-        "maatwebsite/excel": "~2.1.0"
+        "laravelcollective/html": "5.7.*",
+        "phpoffice/phpspreadsheet": "1.10.*"
     },
     "autoload": {
         "classmap": [
@@ -42,14 +42,6 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
         ]
     },
     "config": {

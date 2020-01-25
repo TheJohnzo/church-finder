@@ -3,11 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Excel;
 use DB;
 use App\Church;
 use App\ChurchInfo;
-use App\Organization;
+use App\ChurchAddress;
 use App\ChurchAddressLabel;
 use App\ChurchOrganization;
 use App\OrganizationInfo;
@@ -18,7 +17,7 @@ class ImportExcel extends Command
      * The fields we look for in import
      * TODO might need to do more checking or make dynamic  
      */
-    protected $fields= ['zip', 'city', 'ku', 'org_name', 'church_name', 'contact_phone', 'fax', 'name_ja', 'name_eng', 'contact_email', 'church_url'];
+    protected $fields = ['zip', 'city', 'ku', 'org_name', 'church_name', 'contact_phone', 'fax', 'name_ja', 'name_eng', 'contact_email', 'church_url'];
 
     /**
      * The name and signature of the console command.
@@ -54,21 +53,39 @@ class ImportExcel extends Command
         $fileWithPath = $this->argument('file');
         if ($fileWithPath) {
 
-            $data = Excel::load($fileWithPath, function($reader) {
-            })->get();
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+            $spreadsheet = $reader->load($fileWithPath);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+            if (count($data) > 0) {
+                $firstRow = $data[0];
+                unset($data[0]);
+                $fieldMap = [];
 
-            if(!empty($data) && $data->count()){
-                foreach ($data as $key => $value) {
-                    $arr = [];
+                foreach ($firstRow as $key => $value) {
                     foreach ($this->fields as $f) {
-                        $arr[$f] = $value->$f;
+                        if ($f == $value) {
+                            $fieldMap[$key] = $f;
+                        }
+                    }
+                }
+var_dump($fieldMap);
+//die('');
+                $insert = [];
+                foreach ($data as $key => $row) {
+                    $arr = [];
+                    foreach ($row as $key2 => $cell) {
+                        if (isset($fieldMap[$key2])) {
+                            $arr[$fieldMap[$key2]] = $cell;
+                        }
                     }
                     $insert[] = $arr;
-                    $arr = false;
                 }
-                if(!empty($insert)){
+
+                if (!empty($insert)) {
                     foreach ($insert as $i) {
-                        if ($i['church_name'] != '') {
+                        var_dump($i);
+                        echo strlen($i['church_name']), "!!";
+                        if (strlen($i['church_name']) > 0) {
 
                             // find or create church by japanese name
                             echo "church info lookup|";
@@ -89,7 +106,7 @@ class ImportExcel extends Command
                                 echo "finding org|";
                                 $organization = OrganizationInfo::findOrCreateByName($i['org_name'], $language="ja");
                                 echo "adding church to org|";
-                                ChurchOrganization::addToOrganization($church->id, $organization->id);
+                                ChurchOrganization::addToOrganization($church->id, $organization->organization_id);
                             } else {
                                 echo "no org|";
                             }
@@ -121,7 +138,7 @@ class ImportExcel extends Command
                 }
             }
         }
-        #Church::updateLatLongFromAddressAll(); //or could just do by church
-        // \App\ChurchAddress::ifOnlyMakePrimaryAll();
+        Church::updateLatLongFromAddressAll();
+        ChurchAddress::ifOnlyMakePrimaryAll();
     }
 }
