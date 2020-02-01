@@ -65,6 +65,9 @@ body {
 input[readonly], input[disabled] {
     background-color: #DDDDDD;
 }
+.mt-20 {
+    margin-top: 20px;
+}
 .alert-danger {
     background-color: #f2dede !important;
 }

@@ -1,11 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.update')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div align="center"><h3>{!! $msg or '' !!}</h3></div>
         <div class="col-md-10 col-md-offset-1">
-            @include('admin.church_menu')
+            <div align="center">
+                <h3>Thank you for updating your church information with us!</h3>
+            </div>
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
@@ -16,17 +18,18 @@
                 </div>
             @endif
             <div class="panel panel-default tab_div">
-            <form action="{{ URL::to('admin/church/edit/' . $church->id) }}" method="POST">
+                <h4 align="center" class="mt-20">Choose language: @include('admin.language_radio')</h4>
+            </div>
+            <div class="panel panel-default tab_div">
+            <form action="{{ URL::to('update/church/edit/' . $church->id) }}" method="POST">
                 {{ Form::token() }}
                 <table>
                     <tr>
-                        <td>&nbsp;</td><td></td>
-                    </tr><tr>
-                        <td class="form_cell_label">ID</td><td  width="75%" class="text form_cell">{{ $church->id }}</td>
+                        <td colspan="2">&nbsp;</td>
                     </tr>
 
 <!-- loop for multi-lingual name and description -->
-                @include('admin.church_name_and_desc')
+                    @include('admin.church_name_and_desc')
 <!-- end loop -->
                     <tr>
                         <td></td><td>&nbsp;</td>
@@ -35,10 +38,21 @@
                     @foreach ($addresses as $cnt => $addr)
                         @include('admin.field_church_address')
                     @endforeach
+                    <tr>
+                        <td class="form_cell_label">Address Correct?</td>
+                        <td class="text form_cell">
+                            <label for="address_correct_yes">Yes</label>
+                            <input type="radio" name="address_correct" id="address_correct_yes" value="1" />
+                            &nbsp;&nbsp;
+                            <label for="address_correct_no">No</label>
+                            <input type="radio" name="address_correct" id="address_correct_no" value="0" />
+                        </td>
+                    </tr>
 <!-- end loop -->
                     <tr>
                         <td>&nbsp;</td><td></td>
-                    </tr><tr>
+                    </tr>
+                    <tr>
                         <td class="form_cell_label">Size</td><td class="text form_cell">
                             {{ Form::select('size_in_people', $sizes, $church->size_in_people, ['id' => 'size_in_people']) }}
                         </td>
@@ -92,7 +106,7 @@
                         </td>
                     </tr><tr>
                         <td>&nbsp;</td>
-                        <td class="text form_cell"><a href="/admin/church">キャンセル</a></td>
+                        <td class="text form_cell"><a href="/update/church">キャンセル</a></td>
                     </tr><tr>
                         <td>&nbsp;</td><td></td>
                     </tr><tr>
