@@ -31,6 +31,10 @@ Route::post('/admin/church/edit/{id}', 'ChurchAdminController@updateChurch');
 // Direct church update URLs, no auth needed (email code verification)
 Route::get('/update/church/edit/{id}', 'ChurchUpdateController@editChurch');
 Route::post('/update/church/edit/{id}', 'ChurchUpdateController@updateChurch');
+Route::post('/updatefromurl/church/edit/{id}', 'ChurchUpdateController@updateChurchFromUrl');
+Route::get('/updatefromurl/address/{id}', 'ChurchUpdateController@updateChurchAddressFromUrl');
+Route::post('/updatefromurl/address/{id}', 'ChurchUpdateController@updateChurchAddressFromUrl');
+Route::post('/updatefromurl/address/{id}/save', 'ChurchUpdateController@updateChurchAddressFromUrlSave');
 
 Route::get('/admin/church/{id}/address', 'AddressAdminController@editChurchAddress');
 Route::post('/admin/church/{id}/address/{address_id}', 'AddressAdminController@updateChurchAddress')->where('address_id', '[0-9]+');

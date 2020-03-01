@@ -45,7 +45,6 @@ class ChurchUpdateController extends AdminController
         return view('update/church_edit', $data);
     }
 
-    # TODO needs lots of custom logic for only editing on language at a time...
     public function updateChurch($id, Request $request)
     {
         $rules = array(
@@ -79,6 +78,80 @@ class ChurchUpdateController extends AdminController
         }
     }
 
+    // we email magic URLs to churches and give them this link to update just their church
+    public function updateChurchFromUrl($id, Request $request)
+    {
+        $rules = array(
+            'contact_email' => 'email',
+            'url'           => 'url',
+        );
+
+        $validator = \Validator::make($request->all(), $rules);
+        $languages = \App\Language::query()
+            ->where('code', $request->current_language)
+            ->get();
+        if ($validator->fails()) {
+            return \Redirect::to('update/church/edit/' . $id)
+                ->withInput()
+                ->withErrors($validator);
+        } else {
+            //save core record fields
+            $church = \App\Church::find($id);
+            $church->size_in_people = $request->size_in_people;
+            $church->url = $request->url;
+            $church->contact_phone = $request->contact_phone;
+            $church->contact_email = $request->contact_email;
+            $church->save();
+
+            $this->postSave($id, $languages, $request);
+
+            // redirect
+            $request->session()->flash('message', 'Church record <em>' . $church->id . '</em> saved!');
+            if ($request->address_correct == 1) {
+                return view('update/arigatou?lang=' . $request->current_language);
+            } else {
+                return \Redirect::to('/updatefromurl/address/' . $id . '?lang=' . $request->current_language);
+            }
+        }
+    }
+
+    # The address wasn't correct to have them create a new one
+    public function updateChurchAddressFromUrl($id, Request $request) {
+        $church = \App\Church::findorfail($id);
+
+        //fake new addr allows the view to display a "create new" form after all the edit forms
+        $fake_new_addr = new \App\ChurchAddress;
+        $fake_new_addr->id = 'new';
+        $addresses[] = $fake_new_addr;
+
+        $data = [
+            'chosen_lang' => $request->lang ?? 'ja',
+            'church' => $church,
+            'languages' => \App\Language::all(),
+            'addresses' => $addresses,
+            'address_labels' => \App\ChurchAddressLabel::allByChurchId($id),
+            'msg' => session('message'),
+            'address_id' => 0,
+            'lang' => $request->lang,
+        ];
+
+        if ($request->isMethod('post')) {
+            $data['address_labels'] = \App\ChurchAddress::lookupAddresses($request->search_0);
+        }
+# TODO this is not the array format we exepct and it's breaking the page
+die(var_export($data['address_labels'][31], true));
+        return view('update/address_edit', $data);
+    }
+
+    public function updateChurchAddressFromUrlSave($id, Request $request) {
+        $church = \App\Church::findorfail($id);
+        # TODO we need to fix this save logic for the end-user church address edit
+        //        $addr = \App\ChurchAddress::findorfail($address_id);
+        //FIX ME
+//        $addr
+//        AddressAdminController::postSave($id, $addr, $request);
+    }
+
     /**
      * Post save logic used by both insert and update
      */
@@ -102,7 +175,7 @@ class ChurchUpdateController extends AdminController
             $info->description = $request->$descriptionField;
             $info->save();
 
-            //udpate languages spoken at church
+            //update languages spoken at church
             $clang = \App\ChurchLanguage::where('church_id', $id)
                 ->where('language', $l->code)
                 ->first();

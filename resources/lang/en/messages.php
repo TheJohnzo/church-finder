@@ -31,4 +31,7 @@ return [
     'displaying-churches' => 'Displaying :NUMBER church|Displaying :NUMBER churches',
     'city' => 'City or Town',
     'tags' => 'Tags',
+    'website' => 'Website',
+    'more-info' => 'more info'
+
 ];

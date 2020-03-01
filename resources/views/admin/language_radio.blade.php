@@ -3,9 +3,9 @@
     Typically only used for church people supply their own data updates
 --}}
 @foreach ($languages as $lang)
-    <label for="radio_languages_{{ $lang->code }}" class="flag-icon flag-icon-{{ $lang['primary_country'] }}"
+    <label for="current_language_{{ $lang->code }}" class="flag-icon flag-icon-{{ $lang['primary_country'] }}"
         style="background-size: contain;background-position: 50%;background-repeat: no-repeat;height:25px;width:40px;"></label>
-    <input type="radio" name="languages[]" id="radio_languages_{{ $lang->code }}"
+    <input type="radio" name="current_language" id="current_language_{{ $lang->code }}"
         {{ (request('lang') ?? 'ja' ) == $lang->code ? 'checked' : '' }}
     value="{{ $lang->code }}" onclick="radioChooseLanguage(this)" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 @endforeach

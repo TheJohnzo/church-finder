@@ -12,9 +12,8 @@ return [
     'of' => '?of',
     'search' => '検索',
     'see-all' => '?See All',
-    'show' => '?Show on map',
+    'show' => '見せて',
     'distance' => '距離',
-    'see-more' => '?more info',
     'service-times' => '?Service Times',
     'related-orgs'     => '?Related Orgs',
     'back-to-map'     => '戻る',
@@ -31,5 +30,7 @@ return [
     'displaying-churches' => ':NUMBER教会の表示',
     'city' => '都市',
     'tags' => 'タグ',
+    'website' => 'ウェブサイト',
+    'more-info' => 'もっと'
 
 ];

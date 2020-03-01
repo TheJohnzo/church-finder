@@ -42,7 +42,7 @@ class Initialize extends Command
     {
         // Create a generic admin account with default password
         $user = \App\User::where('email', 'john.glen.stevens@gmail.com')->first();
-        if ($user->email == '') {
+        if (!is_object($user) || $user->email == '') {
             $user = new User();
             $user->password = Hash::make('pleasechangemelater');
             $user->email = env('ADMIN_EMAIL', 'john.glen.stevens@gmail.com');

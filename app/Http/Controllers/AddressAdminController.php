@@ -107,7 +107,7 @@ class AddressAdminController extends AdminController
     /**
      * Post save logic used by both isnert and update
      */
-    protected function postSave($id, $addr, $request)
+    public function postSave($id, $addr, $request)
     {
         $messages = [
             'required' => 'Please enter a valid address and click "Lookup Addresses"',

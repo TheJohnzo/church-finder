@@ -2,30 +2,34 @@
 
 @section('content')
     <div align="left" style="padding: 25px;">
-        <button type="submit" class="btn btn-primary" onclick="window.history.back();">
-            {!! FA::icon('hand-o-left') !!} @lang('messages.back-to-map')
-        </button>
-        <div align="center" style="float: right;width: 75%">
-            <ul class="nav nav-justified">
-              <!-- <li><a href="#top">{!! FA::icon('arrow-circle-up') !!} Top</a></li> 
-                  Consider hidding content sections until menu items clicked for easier viewing in iframe.  
-                  -->
-              @if (count($church->meetingtime()->get()) > 0)
-              <li>
-                  <a href="#servicetimes">{!! FA::icon('calendar') !!} @lang('messages.service-times') {!! FA::icon('arrow-circle-down') !!}</a>
-              </li>
-              @endif
-              @if (count($church->organization()->get()) > 0)
-              <li>
-                <a href="#orgs">{!! FA::icon('group') !!} @lang('messages.related-orgs') {!! FA::icon('arrow-circle-down') !!}</a>
-              </li>
-              @endif
-              @if (count($church->tag()->get()) > 0)
-              <li>
-                <a href="#tags">{!! FA::icon('tags') !!} @lang('messages.tags') {!! FA::icon('arrow-circle-down') !!}</a>
-              </li>
-              @endif
-            </ul>
+        <div class="row">
+            <div class="col-xs-12 col-md-3 text-center">
+                <button type="submit" class="btn btn-primary" onclick="window.history.back();">
+                    {!! FA::icon('hand-o-left') !!} @lang('messages.back-to-map')
+                </button>
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <ul class="nav nav-justified">
+                    <!-- <li><a href="#top">{!! FA::icon('arrow-circle-up') !!} Top</a></li>
+                      Consider hiding content sections until menu items clicked for easier viewing in iframe.
+                      -->
+                    @if (count($church->meetingtime()->get()) > 0)
+                        <li>
+                            <a href="#servicetimes">{!! FA::icon('calendar') !!} @lang('messages.service-times') {!! FA::icon('arrow-circle-down') !!}</a>
+                        </li>
+                    @endif
+                    @if (count($church->organization()->get()) > 0)
+                        <li>
+                            <a href="#orgs">{!! FA::icon('group') !!} @lang('messages.related-orgs') {!! FA::icon('arrow-circle-down') !!}</a>
+                        </li>
+                    @endif
+                    @if (count($church->tag()->get()) > 0)
+                        <li>
+                            <a href="#tags">{!! FA::icon('tags') !!} @lang('messages.tags') {!! FA::icon('arrow-circle-down') !!}</a>
+                        </li>
+                    @endif
+                </ul>
+            </div>
         </div>
     </div>
     <div class="blue detail_box">

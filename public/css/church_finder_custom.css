@@ -88,9 +88,11 @@ input[readonly], input[disabled] {
 /* map css */
 .search_results {
     height: 400px;
-    float: left; 
-    overflow: scroll; 
+    float: left;
     background-color: #13224D;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    text-align: center;
 }
 .search_results_map {
     margin-top: 0px;
@@ -98,7 +100,7 @@ input[readonly], input[disabled] {
 }
 .search_results_no_map {
     margin-top: 0px; 
-    width: 100%; 
+    width: 100%;
 }
 .selected_church_box {
     color: #ffffff;
@@ -135,6 +137,17 @@ input[readonly], input[disabled] {
     min-height: 180px;
     margin-left: 2px;
     margin-bottom: 0px;
+}
+@media only screen and (max-width: 600px) {
+    .church_box {
+        margin: 1px;
+    }
+    .left_box {
+        margin-right: 1px;
+    }
+    .right_box {
+        margin-left: 1px;
+    }
 }
 div.detail_box {
     width: 100%; 

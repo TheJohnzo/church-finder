@@ -37,9 +37,11 @@
                     <h4>{{ $location->name }}</h4>
                     <h5>{{ $location->addr }}</h5>
                     @if ($location->url)
-                        <h5>{!! FA::icon('link') !!} <a href="{{ $location->url }}" target="_blank">{{ $location->url }}</a></h5>
+                        <h5>{!! FA::icon('link') !!} <a href="{{ $location->url }}" target="_blank">@lang('messages.website')</a></h5>
                     @endif
-                    <a href="{{ URL::to('/church/' . $location->church_id . '/?lang=' . $lang) }}">{!! FA::icon('info-circle') !!}  @lang('messages.see-more')</a>
+                    <a href="{{ URL::to('/church/' . $location->church_id . '/?lang=' . $lang) }}">
+                        {!! FA::icon('info-circle') !!}  @lang('messages.more-info')
+                    </a>
                     @if (isset($location->distance))
                     <br />@lang('messages.distance'): {{ round($location->distance, 2) }} km
                     @endif

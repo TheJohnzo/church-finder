@@ -52,10 +52,19 @@
                     <div class="record-number">#{{ $key+1 }}</div>
                     <h4>{{ $location->name }}</h4>
                     <h5>{{ $location->addr }}</h5>
-                    <a href="#church_{{ $key }}"
-                        onclick="infowindow_{!! $key !!}.open(map_0, marker_{!! $key !!});highlightMapBox({!! $key !!});">{!! FA::icon('map') !!}  @lang('messages.show')</a>
-                    &nbsp;&nbsp; | &nbsp;&nbsp;
-                    <a href="{{ URL::to('/church/' . $location->church_id . '/?lang=' . $lang) }}">{!! FA::icon('info-circle') !!}  @lang('messages.see-more')</a>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <a href="#church_{{ $key }}"
+                                onclick="infowindow_{!! $key !!}.open(map_0, marker_{!! $key !!});highlightMapBox({!! $key !!});">
+                                {!! FA::icon('map') !!}  @lang('messages.show')
+                            </a>
+                        </div><div class="col-xs-12 col-md-6">
+                            <a href="{{ URL::to('/church/' . $location->church_id . '/?lang=' . $lang) }}">
+                                {!! FA::icon('info-circle') !!}  @lang('messages.more-info')
+                            </a>
+                        </div>
+                    </div>
+
                     @if (isset($location->distance))
                     <br />@lang('messages.distance'): {{ round($location->distance, 2) }} km
                     @endif
