@@ -199,7 +199,7 @@ class ChurchFinderController extends Controller
 
     protected function getDefaultLocation($params)
     {
-        $location = \GeoIP::getLocation('124.140.43.71');//TODO don't hardcode IP in production
+        $location = \GeoIP::getLocation(\Request::ip());
         Mapper::map($location['lat'], $location['lon'], $params);
     }
 }
