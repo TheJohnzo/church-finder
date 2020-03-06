@@ -67,7 +67,7 @@ class Church extends Model
             SELECT c.id church_id, c.*,(((acos(sin(( $latitude *pi()/180)) * sin((latitude*pi()/180))+cos(( $latitude *pi()/180)) * 
                     cos((latitude*pi()/180)) * cos((( $longitude - longitude)*pi()/180))))*180/pi())*60*1.1515*1.609344) as distance
             FROM church c 
-            JOIN church_address a ON (c.id = a.church_id)
+            JOIN church_address a ON (c.id = a.church_id);
         ";
         DB::unprepared(DB::raw($temp_q));
 
@@ -78,7 +78,7 @@ class Church extends Model
         ORDER BY distance";
         $data = DB::select($q, ['distance' => $distance]);
 
-        $drop_q = "DROP TEMPORARY TABLE $temp_table_name";
+        $drop_q = "DROP TEMPORARY TABLE $temp_table_name;";
         DB::unprepared(DB::raw($drop_q));
 
         return $data;
