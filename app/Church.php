@@ -69,7 +69,7 @@ class Church extends Model
             FROM church c 
             JOIN church_address a ON (c.id = a.church_id)
         ";
-        DB::select($temp_q);
+        DB::unprepared(DB::raw($temp_q));
 
         //TODO how will this handle multiple addresses???
         $q = "
@@ -79,7 +79,7 @@ class Church extends Model
         $data = DB::select($q, ['distance' => $distance]);
 
         $drop_q = "DROP TEMPORARY TABLE $temp_table_name";
-        DB::select($drop_q);
+        DB::unprepared(DB::raw($drop_q));
 
         return $data;
     }
