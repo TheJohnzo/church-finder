@@ -110,6 +110,7 @@ input[readonly], input[disabled] {
     width: 95%; 
     min-height: 55px; 
     text-align: center;
+    margin: 5px;
 }
 .selected_church_box a {
     color: #ffffff !important;
@@ -147,6 +148,9 @@ input[readonly], input[disabled] {
     }
     .right_box {
         margin-left: 1px;
+    }
+    .selected_church_box {
+        margin: 1px;
     }
 }
 div.detail_box {
