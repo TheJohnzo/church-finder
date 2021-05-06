@@ -21,7 +21,7 @@
         "cornford/googlmapper": "2.*",
         "torann/geoip": "1.0.*",
         "laravelcollective/html": "5.8.*",
-        "phpoffice/phpspreadsheet": "1.10.*"
+        "phpoffice/phpspreadsheet": "1.16.*"
     },
     "autoload": {
         "classmap": [
